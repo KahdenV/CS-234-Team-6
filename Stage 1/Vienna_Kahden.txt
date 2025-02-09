@@ -1,0 +1,3 @@
+Customer Class
+Staff Class
+Membership Class
