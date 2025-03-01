@@ -1,3 +1,45 @@
-Screen Class - Represents the Auditoriams where the movies will be shown (e.g. can assign show time pllust the available seat)
-Payment Class - Represents the payments from the customer for tickets (e.g. process payment, refund for canceling and details of paymeny.)
-Concession CLass - Represents sales of food and drinks (e.g popcorn,soda) to customers. THis class checks if the buyer has already bought a ticket.
+Screen Class
+
+Attributes:
+screenId: Unique identifier for the auditorium.
+capacity: Total number of seats.
+availableSeats: Number of available seats.
+showTimes: List of assigned showtimes.
+
+Methods:
+assignShowTime(showTime): Assigns a showtime to the screen.
+updateAvailableSeats(seatCount): Updates the number of available seats.
+getAvailableSeats(): Returns the number of available seats.
+
+
+Payment Class
+
+Attributes:
+paymentId: Unique identifier for the payment.
+customerId: Identifier for the customer.
+amount: Amount paid.
+paymentDate: Date of payment.
+status: Status of the payment (e.g., completed, refunded).
+
+Methods:
+processPayment(amount, customerId): Processes a payment for a specified amount.
+refundPayment(paymentId): Processes a refund for a specified payment ID.
+getPaymentDetails(paymentId): Retrieves the details of a specified payment.
+updatePaymentStatus(paymentId, status): Updates the status of a specified payment.
+
+
+Concession Class
+
+Attributes:
+concessionId: Unique identifier for the concession item.
+itemName: Name of the concession item (e.g., popcorn, soda).
+price: Price of the concession item.
+customerId: Identifier for the customer (to check ticket purchase).
+
+Methods:
+processSale(itemId, customerId): Processes the sale of a concession item for a customer.
+checkTicketPurchase(customerId): Checks if a customer has already bought a ticket.
+addItem(itemId, itemName, price): Adds a new item to the concession menu.
+removeItem(itemId): Removes an item from the concession menu.
+updateItem(itemId, itemName, price): Updates an existing item in the concession menu.
+searchItem(itemId): Searches for an item in the concession menu.
