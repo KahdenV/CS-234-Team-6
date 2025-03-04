@@ -1,3 +1,28 @@
 Movie Class - Represents a specific film at the movies (e.g. can view details/rating along with info)
+
+Attributes:
+
+movieID: Unique identifier for the movie.
+title: Name of the movie.
+genre: Movie category (e.g., action, drama).
+duration: Length of the movie in minutes.
+rating: Age rating (e.g., PG, R).
+releaseDate: Date the movie was released.
+
+Methods:
+
+getMovieTitle(): Returns the movie's title
+getMovieGenre(): Returns the movie's genre(s).
+getMovieDuration(): Returns the movie's runtime.
+getMovieRating(): Returns the movie's rating.
+getMovieDate(): Returns the movie's date.
+
 Showtime Class - Represents a catalog of specific times for movies (e.g. schedule and update showtimes and get available seats for a showtime)
+
+Attributes:
+Methods:
+
 Ticket Class - Represents an existing reservation that the user can view.
+
+Attributes:
+Methods:
