@@ -1,3 +1,64 @@
-Customer Class - Represents how a customer interacts with the movie theater
-Staff Class - Represents employees and allows them to manage the theater
 Master Class - Represents an controller for all other classes and manages the flow between them
+
+	Attributes:
+	- systemID: int
+	- currentUsers: List<String>
+	- activeSessions: int
+	- systemLogs: List<String>
+
+	Methods:
+	- initializeSystem()
+	- shutdownSystem()
+	- generateReports()
+	- manageUsers()
+	- logSystemActivity(String activity)
+	- mainMenu()
+	- handleCustomerActions()
+	- handleStaffActions()
+
+	Relationships:
+	- Directly interacts with Customer, Staff
+	- Manages system-wide operations
+
+Customer Class - Represents how a customer interacts with the movie theater
+
+	Attributes:
+	- customerID: int
+	- name: String
+	- email: String
+	- membershipStatus: boolean
+	- purchaseHistory: List<Ticket>
+
+	Methods:
+	- createAccount(String name, String email)
+	- updateAccountDetails(int customerID, Map<String, String> newDetails)
+	- deleteAccount(int customerID)
+	- searchMovie(String title): List<Movie>
+	- purchaseTicket(int movieID, int showtimeID, String seatNumber): Ticket
+	- modifyTicket(int ticketID, int newShowtimeID): boolean
+
+	Relationships:
+	- Purchases Ticket
+	- Buys Concession
+	- Makes Payment
+
+Staff Class - Represents employees and allows them to manage the theater
+
+	Attributes:
+	- staffID: int
+	- name: String
+	- role: String
+	- email: String
+	- phoneNumber: String
+
+	Methods:
+	- login(String email, String password): boolean
+	- manageShowtimes()
+	- modifyMovies()
+	- viewSalesReports()
+	- generatePayroll()
+
+	Relationships:
+	- Manages Movie
+	- Manages Showtime
+	- Views Payment data (for sales reports)
