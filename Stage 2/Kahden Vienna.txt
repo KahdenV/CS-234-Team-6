@@ -1,0 +1,8 @@
+Team Member: Kahden Vienna
+Contribution Summary:
+
+	Designed the classes system(originally master), customer and staff.
+	Designed the UML diagram
+	Defined relationships and associations between classes
+	Outlined the System, Customer, and Staff class in Java
+	Collaborated on fixing the system and fixing any problems with classes or the system.
