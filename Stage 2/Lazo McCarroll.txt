@@ -1,0 +1,7 @@
+Team Member: Lazo McCarroll
+Contribution Summary:
+
+	Designed the Movie, Ticket, and Showtime classes.
+	Revised and edited the UML diagram.
+	Outlined the Movie, Ticket, and Showtime classes in Java.
+	Collaborated on fixing the program and fixing and problems with classes.
