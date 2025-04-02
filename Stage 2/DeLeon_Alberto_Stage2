@@ -1,0 +1,6 @@
+Team Member: Alberto
+Contribution Summary:
+- Designed UML diagrams representing the Screen, Payment, and Concession classes.
+- Defined relationships and inheritance between the classes in the system design.
+- Implemented the Screen class in Java (attributes: screenId, capacity, availableSeats, showTimes; methods: assignShowTime, updateAvailableSeats, getAvailableSeats).
+- Collaborated on refining system requirements and clarifying class responsibilities.
