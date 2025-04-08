@@ -1,9 +1,16 @@
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * Displays the customer menu and handles customer actions.
  */
 public class CustomerMenu {
+    private List<Movie> movies;
+
+    public CustomerMenu(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     public void showCustomerMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -11,7 +18,7 @@ public class CustomerMenu {
         while (running) {
             System.out.println("\n=== Customer Menu ===");
             System.out.println("1. View All Movies");
-            System.out.println("2. View All Showtimes");
+            System.out.println("2. Sewarch Movie");
             System.out.println("3. Book Ticket");
             System.out.println("4. View Order History");
             System.out.println("5. View Concessions");
@@ -24,10 +31,10 @@ public class CustomerMenu {
 
             switch (choice) {
                 case 1:
-                    // viewAllMovies();
+                    viewAllMovies();
                     break;
                 case 2:
-                    // viewAllShowtimes();
+                    searchMovie(scanner);
                     break;
                 case 3:
                     // bookTicket();
@@ -48,5 +55,34 @@ public class CustomerMenu {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+    }
+
+    /**
+    * Displays all movies.
+    */
+    private void viewAllMovies() {
+        System.out.println("\n=== View All Movies ===");
+            for (Movie movie : movies) {
+                movie.printMovieDetails();
+        }
+    }
+
+        /**
+     * Searches for a movie by title.
+     *
+     * @param scanner The Scanner object for user input.
+     */
+    private void searchMovie(Scanner scanner) {
+        System.out.print("\nEnter movie title to search: ");
+        String title = scanner.nextLine();
+
+        for (Movie movie : movies) {
+            if (movie.getMovieTitle().equalsIgnoreCase(title)) {
+                movie.printMovieDetails();
+                return;
+            }
+        }
+
+        System.out.println("Movie not found.");
     }
 }

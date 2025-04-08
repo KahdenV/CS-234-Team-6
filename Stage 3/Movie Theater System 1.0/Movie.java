@@ -9,9 +9,11 @@ public class Movie
     protected String movieReleaseDate;
     protected Scanner movieScanner;
 
-    public Movie()
-    {
+    public Movie() {
         movieScanner = new Scanner(System.in);
+    }
+
+    public void inputMovieDetails() {
         System.out.println("Enter information for new movie: \n");
         setMovieTitle();
         setMovieGenres();
@@ -19,6 +21,7 @@ public class Movie
         setMovieRating();
         setMovieReleaseDate();
     }
+
 
 
 
