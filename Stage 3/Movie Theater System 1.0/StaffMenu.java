@@ -7,10 +7,12 @@ import java.util.Scanner;
 public class StaffMenu {
     private List<Staff> staff;
     private List<Customer> customers;
+    private List<Movie> movies;
 
-    public StaffMenu(List<Staff> staff, List<Customer> customers) {
+    public StaffMenu(List<Staff> staff, List<Customer> customers, List<Movie> movies) {
         this.staff = staff;
         this.customers = customers;
+        this.movies = movies;
     }
 
     public void showStaffMenu() {
@@ -57,10 +59,10 @@ public class StaffMenu {
                     // viewReports();
                     break;
                 case 8:
-                    // addMovie(scanner);
+                    addMovie(scanner);
                     break;
                 case 9:
-                    // updateMovie(scanner);
+                    updateMovie(scanner);
                     break;
                 case 10:
                     running = false; // Log out and return to the login menu
@@ -109,5 +111,41 @@ public class StaffMenu {
         for (Customer c : customers) {
             System.out.println(c.getName() + " - " + c.getEmail());
         }
+    }
+
+    /**
+     * Adds a new movie to the list.
+     *
+     * @param scanner The Scanner object for user input.
+     */
+    private void addMovie(Scanner scanner) {
+        System.out.println("\n=== Add New Movie ===");
+        Movie newMovie = new Movie();
+        newMovie.inputMovieDetails(); // Use the Movie class method to input details
+        movies.add(newMovie);
+
+        System.out.println("New movie added successfully.");
+    }
+
+    /**
+     * Updates an existing movie.
+     *
+     * @param scanner The Scanner object for user input.
+     */
+    private void updateMovie(Scanner scanner) {
+        System.out.println("\n=== Update Movie ===");
+        System.out.print("Enter the movie title to update: ");
+        String title = scanner.nextLine();
+
+        for (Movie movie : movies) {
+            if (movie.getMovieTitle().equalsIgnoreCase(title)) {
+                System.out.println("Movie found. Updating details...");
+                movie.inputMovieDetails(); // Reuse the method to update details
+                System.out.println("Movie details updated successfully.");
+                return;
+            }
+        }
+
+        System.out.println("Movie not found.");
     }
 }
