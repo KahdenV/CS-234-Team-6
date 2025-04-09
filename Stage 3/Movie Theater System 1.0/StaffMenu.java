@@ -116,36 +116,80 @@ public class StaffMenu {
     /**
      * Adds a new movie to the list.
      *
-     * @param scanner The Scanner object for user input.
+     * @param scanner
      */
     private void addMovie(Scanner scanner) {
         System.out.println("\n=== Add New Movie ===");
         Movie newMovie = new Movie();
-        newMovie.inputMovieDetails(); // Use the Movie class method to input details
+        newMovie.inputMovieDetails();
         movies.add(newMovie);
 
         System.out.println("New movie added successfully.");
     }
 
-    /**
-     * Updates an existing movie.
-     *
-     * @param scanner The Scanner object for user input.
-     */
-    private void updateMovie(Scanner scanner) {
-        System.out.println("\n=== Update Movie ===");
-        System.out.print("Enter the movie title to update: ");
-        String title = scanner.nextLine();
+/**
+ * Updates an existing movie.
+ *
+ * @param scanner
+ */
+private void updateMovie(Scanner scanner) {
+    System.out.println("\n=== Update Movie ===");
+    System.out.print("Enter the movie title to update: ");
+    String title = scanner.nextLine();
 
-        for (Movie movie : movies) {
-            if (movie.getMovieTitle().equalsIgnoreCase(title)) {
-                System.out.println("Movie found. Updating details...");
-                movie.inputMovieDetails(); // Reuse the method to update details
-                System.out.println("Movie details updated successfully.");
-                return;
+    for (Movie movie : movies) {
+        if (movie.getMovieTitle().equalsIgnoreCase(title)) {
+            System.out.println("Movie found. Updating details...");
+
+            boolean updating = true;
+            while (updating) {
+                System.out.println("\nWhat would you like to update?");
+                System.out.println("1. Movie Title");
+                System.out.println("2. Movie Genres");
+                System.out.println("3. Movie Runtime");
+                System.out.println("4. Movie Rating");
+                System.out.println("5. Movie Release Date");
+                System.out.println("6. Finish Updating");
+                System.out.print("Enter your choice: ");
+
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1: 
+                        System.out.print("Enter the new movie title: ");
+                        String newTitle = scanner.nextLine();
+                        movie.setMovieTitle(newTitle); 
+                        System.out.println("Movie title updated successfully.");
+                        break;
+                    case 2:
+                        movie.setMovieGenres(); 
+                        System.out.println("Movie genres updated successfully.");
+                        break;
+                    case 3:
+                        movie.setMovieRuntime(); 
+                        System.out.println("Movie runtime updated successfully.");
+                        break;
+                    case 4:
+                        movie.setMovieRating(); 
+                        System.out.println("Movie rating updated successfully.");
+                        break;
+                    case 5:
+                        movie.setMovieReleaseDate(); 
+                        System.out.println("Movie release date updated successfully.");
+                        break;
+                    case 6:
+                        updating = false; 
+                        System.out.println("Finished updating the movie.");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
+            return; // Exit the method after updating
         }
-
-        System.out.println("Movie not found.");
     }
+
+    System.out.println("Movie not found.");
+}
 }

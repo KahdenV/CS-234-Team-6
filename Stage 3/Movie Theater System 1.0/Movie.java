@@ -15,7 +15,7 @@ public class Movie
 
     public void inputMovieDetails() {
         System.out.println("Enter information for new movie: \n");
-        setMovieTitle();
+        movieScanner = new Scanner(System.in);
         setMovieGenres();
         setMovieRuntime();
         setMovieRating();
@@ -74,10 +74,8 @@ public class Movie
 
 
 
-    public void setMovieTitle()
-    {
-        System.out.printf("Enter movie title (please be case-sensitive!): ");
-        movieTitle = movieScanner.nextLine();
+    public void setMovieTitle(String newTitle) {
+        this.movieTitle = newTitle;
     }
 
 
