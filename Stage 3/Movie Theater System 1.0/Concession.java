@@ -5,7 +5,6 @@ public class Concession {
     private final String concessionId;
     private String itemName;
     private double price;
-    private String customerId;
 
     // Concession menu to store items (itemId -> Concession object)
     protected static final Map<String, Concession> concessionMenu = new HashMap<>();

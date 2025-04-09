@@ -7,11 +7,13 @@ import java.util.Map; // For the Map interface
  */
 public class CustomerMenu {
     private List<Movie> movies;
-    private String customerId; // Add customerId to track the current user
+    private String customerId;
+    private Map<String, Concession> concessions;
 
-    public CustomerMenu(List<Movie> movies, String customerId) {
+    public CustomerMenu(List<Movie> movies, String customerId, Map<String, Concession> concessions) {
         this.movies = movies;
         this.customerId = customerId;
+        this.concessions = concessions;
     }
 
     public void showCustomerMenu() {
@@ -30,7 +32,7 @@ public class CustomerMenu {
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -120,15 +122,15 @@ public class CustomerMenu {
      */
     private void viewConcessions() {
         System.out.println("\n=== Concessions Menu ===");
-        if (Concession.getConcessionMenu().isEmpty()) {
+        if (concessions.isEmpty()) {
             System.out.println("No concession items available.");
         } else {
-            for (Map.Entry<String, Concession> entry : Concession.getConcessionMenu().entrySet()) {
-                Concession item = entry.getValue();
-                System.out.println("ID: " + item.getConcessionId() + " | Item: " + item.getItemName() + " | Price: $" + item.getPrice());
+            for (Concession item : concessions.values()) {
+                System.out.println(item.getConcessionId() + ": " + item.getItemName() + " - $" + item.getPrice());
             }
         }
-}
+    }
+
 
     /**
      * Allows the customer to purchase a concession item and processes the payment.

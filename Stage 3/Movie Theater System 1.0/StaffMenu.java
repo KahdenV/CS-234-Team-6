@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -8,11 +9,13 @@ public class StaffMenu {
     private List<Staff> staff;
     private List<Customer> customers;
     private List<Movie> movies;
+    private Map<String, Concession> concessions;
 
-    public StaffMenu(List<Staff> staff, List<Customer> customers, List<Movie> movies) {
+    public StaffMenu(List<Staff> staff, List<Customer> customers, List<Movie> movies, Map<String, Concession> concessions) {
         this.staff = staff;
         this.customers = customers;
         this.movies = movies;
+        this.concessions = concessions;
     }
 
     public void showStaffMenu() {
@@ -116,12 +119,13 @@ public class StaffMenu {
     }
 
     /**
-     * Displays all customers.
+     * Displays all customers with their IDs and names.
      */
     private void viewAllCustomers() {
         System.out.println("\n=== View All Customers ===");
         for (Customer c : customers) {
-            System.out.println(c.getName() + " - " + c.getEmail());
+            // Assuming Customer class has a getCustomerId() method
+            System.out.println(c.getCustomerId() + " - " + c.getName() + " (" + c.getEmail() + ")");
         }
     }
 
