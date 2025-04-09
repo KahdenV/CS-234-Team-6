@@ -1,86 +1,83 @@
-public class Payment {
-    private final String paymentId;
-    private final String customerId;
-    private final double amount;
-    private final Date paymentDate;
-    private String status;
+import java.util.HashMap;
+import java.util.Map;
 
-    // Store payment records
-    private final static Map<String, Payment> paymentRecords = new HashMap<>();
+public class Concession {
+    private final String concessionId;
+    private String itemName;
+    private double price;
+    private String customerId;
+
+    // Concession menu to store items (itemId -> Concession object)
+    private static final Map<String, Concession> concessionMenu = new HashMap<>();
 
     // Constructor
-    public Payment(String paymentId, String customerId, double amount, Date paymentDate, String status) {
-        this.paymentId = paymentId;
-        this.customerId = customerId;
-        this.amount = amount;
-        this.paymentDate = paymentDate;
-        this.status = status;
+    public Concession(String concessionId, String itemName, double price) {
+        this.concessionId = concessionId;
+        this.itemName = itemName;
+        this.price = price;
     }
 
     // Getters
-    public String getPaymentId() { return paymentId; }
-    public String getCustomerId() { return customerId; }
-    public double getAmount() { return amount; }
-    public Date getPaymentDate() { return paymentDate; }
-    public String getStatus() { return status; }
+    public String getConcessionId() { return concessionId; }
+    public String getItemName() { return itemName; }
+    public double getPrice() { return price; }
 
-    // Process a payment
-    public static Payment processPayment(String customerId, double amount) {
-        String paymentId = generatePaymentId(); // Generate a unique ID
-        Date paymentDate = new Date(); // Current date
-        String status = "Completed";
-
-        Payment payment = new Payment(paymentId, customerId, amount, paymentDate, status);
-        paymentRecords.put(paymentId, payment); // Save the payment
-        System.out.println("Payment processed successfully: " + paymentId);
-        return payment;
-    }
-
-    // Refund a payment
-    public static void refundPayment(String paymentId) {
-        Payment payment = paymentRecords.get(paymentId);
-        if (payment != null && payment.status.equals("Completed")) {
-            payment.status = "Refunded";
-            System.out.println("Payment refunded: " + paymentId);
+    // Process the sale of a concession item
+    public static void processSale(String itemId, String customerId) {
+        if (checkTicketPurchase(customerId)) {
+            Concession item = concessionMenu.get(itemId);
+            if (item != null) {
+                System.out.println("Concession item sold: " + item.itemName + " for $" + item.price);
+            } else {
+                System.out.println("Item not found in the concession menu.");
+            }
         } else {
-            System.out.println("Refund failed. Payment not found or already refunded.");
+            System.out.println("Customer must purchase a ticket before buying concessions.");
         }
     }
 
-    // Get payment details
-    public static Payment getPaymentDetails(String paymentId) {
-        Payment payment = paymentRecords.get(paymentId);
-        if (payment != null) {
-            return payment;
+    // Check if the customer has purchased a ticket
+    public static boolean checkTicketPurchase(String customerId) {
+        // Here you would integrate with the ticketing system to verify purchase
+        // For now, simulate that the customer has a ticket
+        return true; // Assume the customer has bought a ticket
+    }
+
+    // Add a new item to the concession menu
+    public static void addItem(String itemId, String itemName, double price) {
+        Concession item = new Concession(itemId, itemName, price);
+        concessionMenu.put(itemId, item);
+        System.out.println("Item added: " + itemName + " ($" + price + ")");
+    }
+
+    // Remove an item from the concession menu
+    public static void removeItem(String itemId) {
+        if (concessionMenu.remove(itemId) != null) {
+            System.out.println("Item removed: " + itemId);
         } else {
-            System.out.println("Payment not found: " + paymentId);
-            return null;
+            System.out.println("Item not found: " + itemId);
         }
     }
 
-    // Update payment status
-    public static void updatePaymentStatus(String paymentId, String status) {
-        Payment payment = paymentRecords.get(paymentId);
-        if (payment != null) {
-            payment.status = status;
-            System.out.println("Payment status updated to: " + status);
+    // Update an existing item in the concession menu
+    public static void updateItem(String itemId, String itemName, double price) {
+        Concession item = concessionMenu.get(itemId);
+        if (item != null) {
+            item.itemName = itemName;
+            item.price = price;
+            System.out.println("Item updated: " + itemName + " ($" + price + ")");
         } else {
-            System.out.println("Payment not found: " + paymentId);
+            System.out.println("Item not found: " + itemId);
         }
     }
 
-    // Generate a unique payment ID
-    private static String generatePaymentId() {
-        return "PAY" + System.currentTimeMillis(); // Example ID generation using timestamp
-    }
-
-    // Debug method to display payment information
-    @Override
-    public String toString() {
-        return "Payment ID: " + paymentId +
-                ", Customer ID: " + customerId +
-                ", Amount: " + amount +
-                ", Payment Date: " + paymentDate +
-                ", Status: " + status;
+    // Search for an item in the concession menu
+    public static void searchItem(String itemId) {
+        Concession item = concessionMenu.get(itemId);
+        if (item != null) {
+            System.out.println("Item found: " + item.itemName + " ($" + item.price + ")");
+        } else {
+            System.out.println("Item not found: " + itemId);
+        }
     }
 }
