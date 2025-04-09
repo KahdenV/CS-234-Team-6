@@ -13,6 +13,7 @@ public class MovieTheaterSystem {
         customers = DummyData.createDummyCustomers();
         staff = DummyData.createDummyStaff();
         movies = DummyData.createDummyMovies();
+        DummyData.createDummyConcessions(); // Initialize dummy concession data
     }
 
     public AuthenticationService getAuthService() {

@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -6,9 +7,11 @@ import java.util.Scanner;
  */
 public class CustomerMenu {
     private List<Movie> movies;
+    private String customerId;
 
     public CustomerMenu(List<Movie> movies) {
         this.movies = movies;
+        this.customerId = customerId;
     }
 
     public void showCustomerMenu() {
@@ -43,10 +46,10 @@ public class CustomerMenu {
                     // viewOrderHistory();
                     break;
                 case 5:
-                    // viewConcessions();
+                    viewConcessions();
                     break;
                 case 6:
-                    // purchaseConcessions();
+                    purchaseConcessions(scanner);
                     break;
                 case 7:
                     running = false; // Log out and return to the login menu
@@ -84,5 +87,34 @@ public class CustomerMenu {
         }
 
         System.out.println("Movie not found.");
+    }
+
+    /**
+     * Displays all available concession items.
+     */
+    private void viewConcessions() {
+        System.out.println("\n=== Concessions Menu ===");
+        if (Concession.getConcessionMenu().isEmpty()) {
+            System.out.println("No concession items available.");
+        } else {
+            for (Map.Entry<String, Concession> entry : Concession.getConcessionMenu().entrySet()) {
+                Concession item = entry.getValue();
+                System.out.println("ID: " + item.getConcessionId() + " | Item: " + item.getItemName() + " | Price: $" + item.getPrice());
+            }
+        }
+    }
+
+    /**
+     * Allows the customer to purchase a concession item.
+     *
+     * @param scanner The Scanner object for user input.
+     */
+    private void purchaseConcessions(Scanner scanner) {
+        System.out.println("\n=== Purchase Concessions ===");
+        System.out.print("Enter the item ID to purchase: ");
+        String itemId = scanner.nextLine();
+
+        // Process the sale using the Concession class
+        Concession.processSale(itemId, customerId);
     }
 }

@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Utility class for creating dummy data for customers and staff.
@@ -53,5 +54,19 @@ public class DummyData {
         movies.add(movie2);
     
         return movies;
+    }
+
+    public static void createDummyConcessions() {
+        Concession.addItem("C001", "Popcorn (Small)", 4.50);
+        Concession.addItem("C002", "Popcorn (Medium)", 6.00);
+        Concession.addItem("C003", "Popcorn (Large)", 7.50);
+        Concession.addItem("C004", "Coca-Cola (Small)", 2.50);
+        Concession.addItem("C005", "Coca-Cola (Medium)", 3.50);
+        Concession.addItem("C006", "Coca-Cola (Large)", 4.50);
+        Concession.addItem("C007", "Nachos", 5.00);
+        Concession.addItem("C008", "Hot Dog", 4.00);
+        Concession.addItem("C009", "Candy (Small)", 3.00);
+        Concession.addItem("C010", "Candy (Large)", 5.00);
+        Concession.addItem("C011", "Ice Cream", 4.50);
     }
 }

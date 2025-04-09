@@ -8,7 +8,12 @@ public class Concession {
     private String customerId;
 
     // Concession menu to store items (itemId -> Concession object)
-    private static final Map<String, Concession> concessionMenu = new HashMap<>();
+    protected static final Map<String, Concession> concessionMenu = new HashMap<>();
+
+
+    public static Map<String, Concession> getConcessionMenu() {
+        return concessionMenu;
+    }
 
     // Constructor
     public Concession(String concessionId, String itemName, double price) {
