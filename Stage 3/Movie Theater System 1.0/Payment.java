@@ -1,3 +1,7 @@
+import java.util.Date; // For the Date class
+import java.util.Map; // For the Map interface
+import java.util.HashMap; // For the HashMap implementation
+
 public class Payment {
     private final String paymentId;
     private final String customerId;
@@ -56,6 +60,11 @@ public class Payment {
             System.out.println("Payment not found: " + paymentId);
             return null;
         }
+    }
+
+    // Get All Payment Records
+    public static Map<String, Payment> getPaymentRecords() {
+        return paymentRecords;
     }
 
     // Update payment status

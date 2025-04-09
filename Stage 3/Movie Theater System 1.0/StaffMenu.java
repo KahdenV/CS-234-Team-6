@@ -31,7 +31,9 @@ public class StaffMenu {
             System.out.println("8. Add Movie");
             System.out.println("9. Update Movie");
             System.out.println("10. Manage Concession");
-            System.out.println("11. Logout");
+            System.out.println("11. Manage Refunds");
+            System.out.println("12. View Payments"); // New option
+            System.out.println("13. Logout");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -67,7 +69,14 @@ public class StaffMenu {
                     break;
                 case 10:
                     manageConcessions(scanner);
+                    break;
                 case 11:
+                    manageRefunds(scanner);
+                    break;
+                case 12:
+                    viewPayments(); // Call the new method
+                    break;
+                case 13:
                     running = false; // Log out and return to the login menu
                     break;
                 default:
@@ -117,9 +126,23 @@ public class StaffMenu {
     }
 
     /**
+    * Displays all payments.
+    */
+    private void viewPayments() {
+        System.out.println("\n=== View Payments ===");
+        if (Payment.getPaymentRecords().isEmpty()) {
+            System.out.println("No payments have been processed.");
+        } else {
+            for (Payment payment : Payment.getPaymentRecords().values()) {
+                System.out.println(payment); // Assumes the Payment class has a meaningful toString() method
+            }
+        }
+    }
+
+    /**
      * Adds a new movie to the list.
      *
-     * @param scanner
+     * @param scanner The Scanner object for user input.
      */
     private void addMovie(Scanner scanner) {
         System.out.println("\n=== Add New Movie ===");
@@ -131,10 +154,10 @@ public class StaffMenu {
     }
 
     /**
-    * Updates an existing movie.
-    *
-    * @param scanner
-    */
+     * Updates an existing movie.
+     *
+     * @param scanner The Scanner object for user input.
+     */
     private void updateMovie(Scanner scanner) {
         System.out.println("\n=== Update Movie ===");
         System.out.print("Enter the movie title to update: ");
@@ -159,30 +182,30 @@ public class StaffMenu {
                     scanner.nextLine();
 
                     switch (choice) {
-                        case 1: 
+                        case 1:
                             System.out.print("Enter the new movie title: ");
                             String newTitle = scanner.nextLine();
-                            movie.setMovieTitle(newTitle); 
+                            movie.setMovieTitle(newTitle);
                             System.out.println("Movie title updated successfully.");
                             break;
                         case 2:
-                            movie.setMovieGenres(); 
+                            movie.setMovieGenres();
                             System.out.println("Movie genres updated successfully.");
                             break;
                         case 3:
-                            movie.setMovieRuntime(); 
+                            movie.setMovieRuntime();
                             System.out.println("Movie runtime updated successfully.");
                             break;
                         case 4:
-                            movie.setMovieRating(); 
+                            movie.setMovieRating();
                             System.out.println("Movie rating updated successfully.");
                             break;
                         case 5:
-                            movie.setMovieReleaseDate(); 
+                            movie.setMovieReleaseDate();
                             System.out.println("Movie release date updated successfully.");
                             break;
                         case 6:
-                            updating = false; 
+                            updating = false;
                             System.out.println("Finished updating the movie.");
                             break;
                         default:
@@ -277,5 +300,16 @@ public class StaffMenu {
         String itemId = scanner.nextLine();
 
         Concession.searchItem(itemId);
+    }
+
+    /**
+     * Manages staff-related actions, including refunds.
+     */
+    private void manageRefunds(Scanner scanner) {
+        System.out.println("\n=== Manage Refunds ===");
+        System.out.print("Enter Payment ID to refund: ");
+        String paymentId = scanner.nextLine();
+
+        Payment.refundPayment(paymentId);
     }
 }

@@ -32,7 +32,7 @@ public class MovieTheaterSystem {
      * Shows the main menu and starts the application.
      */
     public void showMainMenu() {
-        MenuManager menuManager = new MenuManager(new CustomerMenu(movies), new StaffMenu(staff, customers, movies));
+        MenuManager menuManager = new MenuManager(new CustomerMenu(movies, "CUSTOMER123"), new StaffMenu(staff, customers, movies));
         ApplicationManager appManager = new ApplicationManager(menuManager, authService);
         appManager.start();
     }
