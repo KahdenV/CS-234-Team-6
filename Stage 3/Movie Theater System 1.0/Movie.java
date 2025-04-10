@@ -1,6 +1,7 @@
 import java.util.Scanner;
 public class Movie
 {
+    // Movie class 
     protected String movieID;
     protected String movieTitle;
     protected String movieGenres;
@@ -9,19 +10,11 @@ public class Movie
     protected String movieReleaseDate;
     protected Scanner movieScanner;
 
-    public Movie() {
-        movieScanner = new Scanner(System.in);
-    }
 
-    public void inputMovieDetails() {
-        System.out.println("Enter information for new movie: \n");
-        movieScanner = new Scanner(System.in);
-        setMovieGenres();
-        setMovieRuntime();
-        setMovieRating();
-        setMovieReleaseDate();
+    // Initialize the Movie class
+    public Movie()
+    {
     }
-
 
 
 
@@ -67,88 +60,44 @@ public class Movie
 
 
 
-    public void setMovieID(String replace_movieID)
+    public void setMovieID(String newID)
     {
-        movieID = replace_movieID;
+        movieID = newID;
     }
 
 
 
-    public void setMovieTitle(String newTitle) {
-        this.movieTitle = newTitle;
+    public void setMovieTitle(String newTitle)
+    {
+        movieTitle = newTitle;
     }
 
 
 
-    public void setMovieGenres()
+    public void setMovieGenres(String newGenres)
     {
-        String[] genreSelection = {"Action", "Adventure", "Animated", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Historical", "Horror", "Musical", "Mystery", "Political", "Romance", "Sci-Fi", "Superhero", "Thriller", "War", "Western"};
-        System.out.println("\nGenre Selection: ");
-        printSelection(genreSelection);
-        System.out.printf("\nPick genre one: ");
-        int genre_one = movieScanner.nextInt()-1;
-        System.out.printf("Pick genre two: ");
-        int genre_two = movieScanner.nextInt()-1;
-
-        if (genre_one > genreSelection.length || genre_two > genreSelection.length || genre_one == -1 || genre_two == -1)
-        {
-            System.out.println("\nInvalid choice.");
-            setMovieGenres();
-        }
-
-        if (genre_one<genre_two) {movieGenres = genreSelection[genre_one] + ", " + genreSelection[genre_two];}
-        else if (genre_one>genre_two) {movieGenres = genreSelection[genre_two] + ", " + genreSelection[genre_one];}
-        else {movieGenres = genreSelection[genre_one];}
+        movieGenres = newGenres;
     }
 
 
 
-    public void setMovieRuntime()
+    public void setMovieRuntime(int newRuntime)
     {
-        System.out.printf("\nEnter movie runtime (in minutes): ");
-        movieRuntime = movieScanner.nextInt();
+        movieRuntime = newRuntime;
     }
 
 
 
-    public void setMovieRating()
+    public void setMovieRating(String newRating)
     {
-        String[] ratingSelection = {"G", "PG", "PG-13", "R"};
-        System.out.println("\nRating Selection: ");
-        printSelection(ratingSelection);
-        System.out.printf("\nPick film rating: ");
-        int rating = movieScanner.nextInt();
-
-        if (rating > ratingSelection.length || rating == 0)
-        {
-            System.out.println("Invalid entry.");
-            setMovieRating();
-        }
-
-        movieRating = ratingSelection[rating-1];
+        movieRating = newRating;
     }
 
 
 
-    public void setMovieReleaseDate()
+    public void setMovieReleaseDate(String newReleaseDate)
     {
-        System.out.printf("\nYear of release: ");
-        int releaseYear = movieScanner.nextInt();
-        System.out.printf("Month of release (in number format): ");
-        int releaseMonth = movieScanner.nextInt();
-        System.out.printf("Day of release: ");
-        int releaseDate = movieScanner.nextInt();
-        movieReleaseDate = releaseMonth + "/" + releaseDate + "/" + releaseYear;
-    }
-
-
-
-    public void printSelection(String[] printThisList)
-    {
-        for (int counter = 0; counter < printThisList.length; counter++)
-        {
-            System.out.println((counter+1) + ") " + printThisList[counter]);
-        }
+        movieReleaseDate = newReleaseDate;
     }
 
 
