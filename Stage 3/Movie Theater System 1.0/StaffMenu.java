@@ -151,7 +151,12 @@ public class StaffMenu {
     private void addMovie(Scanner scanner) {
         System.out.println("\n=== Add New Movie ===");
         Movie newMovie = new Movie();
-        newMovie.inputMovieDetails();
+        newMovie.setMovieID(createMovieID(movies));
+        newMovie.setMovieTitle(createMovieTitle());
+        newMovie.setMovieGenres(createMovieGenres());
+        newMovie.setMovieRuntime(createMovieRuntime());
+        newMovie.setMovieRating(createMovieRating());
+        newMovie.setMovieReleaseDate(createMovieReleaseDate());
         movies.add(newMovie);
 
         System.out.println("New movie added successfully.");
