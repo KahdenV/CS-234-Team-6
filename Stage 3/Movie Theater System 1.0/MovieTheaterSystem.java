@@ -1,22 +1,40 @@
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Main class for managing the movie theater system.
+/*
+ * Class for managing the movie theater system (created directly from Main)
  */
-public class MovieTheaterSystem {
-    private List<Customer> customers;
-    private List<Staff> staff;
+
+public class MovieTheaterSystem
+{
+    private ArrayList<Customer> customers;
+    private ArrayList<Staff> staff;
     private AuthenticationService authService;
-    private List<Movie> movies;
+    private ArrayList<Movie> movies;
+    private ArrayList<Ticket> tickets;
     private Map<String, Concession> concessions;
     private static int customerIdCounter = 1;
 
-    public MovieTheaterSystem() {
+    public MovieTheaterSystem()
+    {
         customers = DummyData.createDummyCustomers();
         staff = DummyData.createDummyStaff();
         movies = DummyData.createDummyMovies();
         concessions = DummyData.createDummyConcessions();
+        tickets = DummyData.createDummyTickets();
+        showMainMenu();
+    }
+
+
+    public void showMainMenu()
+    {
+        MenuManager menuManager = new MenuManager
+        (
+            new CustomerMenu(movies, generateUniqueCustomerId(), concessions),
+            new StaffMenu(staff, customers, movies, concessions)
+        );
+        ApplicationManager appManager = new ApplicationManager(menuManager, authService);
+        appManager.start();
     }
 
     public AuthenticationService getAuthService() {
@@ -41,31 +59,10 @@ public class MovieTheaterSystem {
     }
 
     /**
-     * Shows the main menu and starts the application.
-     */
-    public void showMainMenu() {
-        MenuManager menuManager = new MenuManager(
-            new CustomerMenu(movies, generateUniqueCustomerId(), concessions),
-            new StaffMenu(staff, customers, movies, concessions)
-        );
-        ApplicationManager appManager = new ApplicationManager(menuManager, authService);
-        appManager.start();
-    }
-
-    /**
      * Generates a unique customer ID dynamically.
      * @return A unique customer ID as a string.
      */
     private synchronized String generateUniqueCustomerId() {
         return "Customer" + customerIdCounter++;
-    }
-
-    public static void main(String[] args) {
-        // Initialize the MovieTheaterSystem
-        MovieTheaterSystem system = new MovieTheaterSystem();
-        system.initialize();
-
-        // Start the main menu
-        system.showMainMenu();
     }
 }
