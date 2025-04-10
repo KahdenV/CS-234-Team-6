@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -15,8 +14,9 @@ public class DummyData {
      *
      * @return A list of dummy customers.
      */
-    public static List<Customer> createDummyCustomers() {
-        List<Customer> customers = new ArrayList<>();
+    public static ArrayList<Customer> createDummyCustomers()
+    {
+        ArrayList<Customer> customers = new ArrayList<>();
         customers.add(new Customer("John Doe", "john", "pass123"));
         customers.add(new Customer("Jane Smith", "jane", "pass456"));
         return customers;
@@ -27,8 +27,8 @@ public class DummyData {
      *
      * @return A list of dummy staff members.
      */
-    public static List<Staff> createDummyStaff() {
-        List<Staff> staff = new ArrayList<>();
+    public static ArrayList<Staff> createDummyStaff() {
+        ArrayList<Staff> staff = new ArrayList<>();
         staff.add(new Staff("Admin User", "admin", "admin123"));
         staff.add(new Staff("Theater Staff", "staff", "staff123"));
         return staff;
@@ -39,30 +39,47 @@ public class DummyData {
      *
      * @return A list of dummy movies.
      */
-    public static List<Movie> createDummyMovies() {
-        List<Movie> movies = new ArrayList<>();
+    public static ArrayList<Movie> createDummyMovies() {
+        ArrayList<Movie> movies = new ArrayList<>();
 
         // Add first movie
         Movie movie1 = new Movie();
-        movie1.setMovieID("001");
-        movie1.movieTitle = "Inception";
-        movie1.movieGenres = "Sci-Fi, Thriller";
-        movie1.movieRuntime = 148;
-        movie1.movieRating = "PG-13";
-        movie1.movieReleaseDate = "07/16/2010";
+        movie1.setMovieID("0001");
+        movie1.setMovieTitle("Inception");
+        movie1.setMovieGenres("Sci-Fi, Thriller");
+        movie1.setMovieRuntime(148);
+        movie1.setMovieRating("PG-13");
+        movie1.setMovieReleaseDate("07/16/2010");
         movies.add(movie1);
 
         // Add second movie
         Movie movie2 = new Movie();
-        movie2.setMovieID("002");
-        movie2.movieTitle = "The Dark Knight";
-        movie2.movieGenres = "Action, Crime";
-        movie2.movieRuntime = 152;
-        movie2.movieRating = "PG-13";
-        movie2.movieReleaseDate = "07/18/2008";
+        movie2.setMovieID("0002");
+        movie2.setMovieTitle("The Dark Knight");
+        movie2.setMovieGenres("Action, Crime");
+        movie2.setMovieRuntime(152);
+        movie2.setMovieRating("PG-13");
+        movie2.setMovieReleaseDate("07/18/2008");
         movies.add(movie2);
 
         return movies;
+    }
+
+    public static ArrayList<Ticket> createDummyTickets()
+    {
+        ArrayList<Ticket> tickets = new ArrayList<>();
+
+        Ticket ticket_01 = new Ticket();
+        ticket_01.setTicketID("000001");
+        ticket_01.setCustomerName("98987");
+        ticket_01.setShowtime("--");
+        ticket_01.setSeatNumber("E2");
+        ticket_01.setTicketPrice("34");
+        ticket_01.setTicketStatus("Booked");
+
+        tickets.add(ticket_01);
+
+        return tickets;
     }
 
     /**
@@ -83,5 +100,5 @@ public class DummyData {
             concessionMenu.put("C011", new Concession("C011", "Ice Cream", 4.50));
         }
         return concessionMenu;
-    }
+    } 
 }
