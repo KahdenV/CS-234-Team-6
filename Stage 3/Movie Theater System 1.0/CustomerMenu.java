@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Map; // For the Map interface
@@ -7,13 +8,17 @@ import java.util.Map; // For the Map interface
  */
 public class CustomerMenu {
     private List<Movie> movies;
+    private ArrayList<Ticket> tickets;
+    private ArrayList<Showtime> showtimes;
     private String customerId;
     private Map<String, Concession> concessions;
+    private ArrayList<Customer> customers;
 
-    public CustomerMenu(List<Movie> movies, String customerId, Map<String, Concession> concessions) {
+    public CustomerMenu(List<Movie> movies, String customerId, Map<String, Concession> concessions, ArrayList<Customer> customers) {
         this.movies = movies;
         this.customerId = customerId;
         this.concessions = concessions;
+        this.customers = customers;
     }
 
     public void showCustomerMenu() {
@@ -96,10 +101,67 @@ public class CustomerMenu {
      *
      * @param scanner The Scanner object for user input.
      */
-    private void bookTicket(Scanner scanner) {
+    private void bookTicket(Scanner scanner)
+    {
         System.out.println("\n=== Book Ticket ===");
-        System.out.print("Enter movie title to book: ");
-        String movieTitle = scanner.nextLine();
+        Ticket newTicket = new Ticket();
+
+        newTicket.setTicketID(createTicketID(tickets));
+
+        System.out.printf("Would you like a list of movies currently showing?\n 1) Yes\n 2) No\n Input Answer: ");
+        if (scanner.nextInt() == 1)
+        {
+            viewAllMovies();
+        }
+
+        newTicket.setShowtime(createTicketShowtime(movies, showtimes));
+
+        if (movieTitleList.contains(movieTitle) !=  false)
+        {
+            System.out.printf("Movie " + movieTitle + "does not exist.\n 1) Start over\n2) Exit");
+            if (scanner.nextInt() == 2)
+            {
+                return;
+                bookTicket(scanner);
+            }
+            else
+            {
+                bookTicket(scanner);
+            }
+        }
+        Movie desiredMovie = movies(movieTitleList.indexOf(movieTitle));
+
+        System.out.printf("Would you like a list of showing times for that particular movie?\n 1) Yes\n 2) No\n Input Answer: ");
+        if (scanner.nextInt() == 1)
+        {
+            for (int counter = 0; counter < showtimes.size(); counter++)
+            {
+                if (showtimes(counter).getShownMovie() == desiredMovie)
+                {
+                    System.out.println(showtimes(counter).getTime());
+                }
+            }
+        }
+
+        System.out.printf("Enter movie showtime to book: ");
+        String desiredTime = scanner.nextLine();
+        for (int counter = 0; counter<showtimes.size(); counter++)
+        {
+            if (showtimes(counter).getShownMovie() == desiredMovie && showtimes(counter).getTime == desiredTime)
+            {
+                Showtime desiredShowtime = showtimes(counter);
+                newTicket.setShowtime(desiredShowtime);
+                break;
+            }
+
+            else if (counter+1 == showtimes.size())
+            {
+                System.out.printf("Desired showtime does not exist!\n1) Start over\n2) Exit");
+                if (scanner.nextInt() == 2) {return;}
+                else {bookTicket(scanner);}
+            }
+        }
+
 
         for (Movie movie : movies) {
             if (movie.getMovieTitle().equalsIgnoreCase(movieTitle)) {

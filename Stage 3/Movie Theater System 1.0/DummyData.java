@@ -17,6 +17,7 @@ public class DummyData {
     public static ArrayList<Customer> createDummyCustomers()
     {
         ArrayList<Customer> customers = new ArrayList<>();
+        customers.add(new Customer ("GUEST", "N/A", "N/A"));
         customers.add(new Customer("John Doe", "john", "pass123"));
         customers.add(new Customer("Jane Smith", "jane", "pass456"));
         return customers;

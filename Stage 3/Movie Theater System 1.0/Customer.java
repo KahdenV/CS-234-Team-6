@@ -18,7 +18,7 @@ public class Customer extends Person {
         return "Customer" + customerIdCounter++;
     }
 
-    public String getCustomerId() {
+    public String getCustomerID() {
         return customerId;
     }
 }

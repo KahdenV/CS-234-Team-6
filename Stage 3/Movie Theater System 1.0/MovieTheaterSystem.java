@@ -30,7 +30,7 @@ public class MovieTheaterSystem
     {
         MenuManager menuManager = new MenuManager
         (
-            new CustomerMenu(movies, generateUniqueCustomerId(), concessions),
+            new CustomerMenu(movies, generateUniqueCustomerId(), concessions, customers),
             new StaffMenu(staff, customers, movies, concessions)
         );
         ApplicationManager appManager = new ApplicationManager(menuManager, authService);

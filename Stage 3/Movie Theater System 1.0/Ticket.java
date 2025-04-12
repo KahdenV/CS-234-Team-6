@@ -1,7 +1,7 @@
 public class Showtime
 {
     protected String ticketID;
-    protected String customerName;
+    protected Customer ticketCustomer;
     protected Showtime ticketShowtime;
     protected String seatNumber;
     protected double ticketPrice;
@@ -21,9 +21,9 @@ public class Showtime
 
 
     // Getter for customer name
-    public String getCustomerName()
+    public String getTicketCustomer()
     {
-        return customerName;
+        return ticketCustomer;
     }
 
 
@@ -63,9 +63,9 @@ public class Showtime
 
 
     // Replace customer name
-    public void setCustomerName(String newCustomerName)
+    public void setCustomer(String newCustomer)
     {
-        customerName = newCustomerName;
+        ticketCustomer = newCustomer;
     }
 
 
@@ -100,7 +100,7 @@ public class Showtime
     // Print ticket details
     public void printTicketDetails()
     {
-        System.out.println("Customer: " + customerName);
+        System.out.println("Customer: " + ticketCustomer.getName());
         System.out.println("Movie: " + ticketShowtime.getShownMovie.getMovieTitle());
         System.out.println("Time: " + ticketShowtime.getTime());
         System.out.println("Screen: " + ticketShowtime.getShowingScreen());

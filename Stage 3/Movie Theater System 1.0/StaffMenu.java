@@ -148,7 +148,8 @@ public class StaffMenu {
      *
      * @param scanner The Scanner object for user input.
      */
-    private void addMovie(Scanner scanner) {
+    private void addMovie(Scanner scanner)
+    {
         System.out.println("\n=== Add New Movie ===");
         Movie newMovie = new Movie();
         newMovie.setMovieID(createMovieID(movies));

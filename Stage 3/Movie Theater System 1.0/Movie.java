@@ -8,7 +8,6 @@ public class Movie
     protected int movieRuntime;
     protected String movieRating;
     protected String movieReleaseDate;
-    protected Scanner movieScanner;
 
 
     // Initialize the Movie class
