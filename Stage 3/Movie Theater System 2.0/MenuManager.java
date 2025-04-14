@@ -2,24 +2,30 @@ public class MenuManager {
     private CustomerMenu customerMenu;
     private StaffMenu staffMenu;
 
+    /**
+     * Constructs a MenuManager with specified customer and staff menus.
+     *
+     * @param customerMenu The customer menu handler.
+     * @param staffMenu The staff menu handler.
+     */
     public MenuManager(CustomerMenu customerMenu, StaffMenu staffMenu) {
         this.customerMenu = customerMenu;
         this.staffMenu = staffMenu;
     }
 
     /**
-     * Dynamically sets the CustomerMenu instance.
+     * Updates the customer menu at runtime.
      *
-     * @param customerMenu The CustomerMenu to set.
+     * @param customerMenu The updated CustomerMenu instance.
      */
     public void setCustomerMenu(CustomerMenu customerMenu) {
         this.customerMenu = customerMenu;
     }
 
     /**
-     * Displays the main menu based on the type of user (customer, guest, or staff).
+     * Displays the appropriate menu based on the user's role.
      *
-     * @param user The authenticated user.
+     * @param user The logged-in user.
      */
     public void displayMainMenu(Person user) {
         if (user instanceof Staff) {

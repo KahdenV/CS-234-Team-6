@@ -1,35 +1,64 @@
 import java.util.List;
 
+/**
+ * Handles authentication and account management for customers, staff, and guests.
+ */
 public class AuthenticationService {
     private List<Customer> customers;
     private List<Staff> staff;
-    private int guestCounter = 1; // Track guest IDs
+    private int guestCounter = 1;
 
-    // Constructor
+    /**
+     * Constructs the authentication service with existing customer and staff lists,
+     * and loads additional dummy data.
+     *
+     * @param customers The list of customers.
+     * @param staff The list of staff members.
+     */
     public AuthenticationService(List<Customer> customers, List<Staff> staff) {
         this.customers = customers;
         this.staff = staff;
-        // Add dummy data (if applicable)
         this.customers.addAll(DummyData.createDummyCustomers());
         this.staff.addAll(DummyData.createDummyStaff());
     }
 
+    /**
+     * Retrieves the list of customers.
+     *
+     * @return List of customers.
+     */
     public List<Customer> getCustomers() {
         return customers;
     }
 
+    /**
+     * Adds a new customer to the system.
+     *
+     * @param customer The customer to add.
+     */
     public void addCustomer(Customer customer) {
-        customers.add(customer); // Add new customer to the list
+        customers.add(customer);
     }
 
+    /**
+     * Logs in a guest user by generating a unique guest ID.
+     *
+     * @return A Guest object.
+     */
     public Guest loginAsGuest() {
         String guestId = "guest" + guestCounter++;
         return new Guest(guestId); 
     }
 
+    /**
+     * Authenticates a user by matching credentials against customer and staff records.
+     *
+     * @param username The email or username.
+     * @param password The password.
+     * @return A valid Person object if authentication succeeds, otherwise null.
+     */
     public Person authenticate(String username, String password) {
         for (Customer customer : customers) {
-            // Debug log to check stored customer data
             System.out.println("Checking customer: " + customer.getEmail() + ", " + customer.getPassword());
 
             if (customer.getEmail() != null && customer.getPassword() != null &&
@@ -45,6 +74,6 @@ public class AuthenticationService {
                 return staffMember;
             }
         }
-        return null; // Authentication failed
+        return null;
     }
 }

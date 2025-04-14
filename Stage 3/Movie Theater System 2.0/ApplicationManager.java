@@ -3,43 +3,60 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Manages the application lifecycle, including initialization, shutdown, and user authentication.
+ * Handles the overall control flow of the movie theater system,
+ * including startup, shutdown, user login, and account creation.
  */
 public class ApplicationManager {
     private MenuManager menuManager;
     private AuthenticationService authService;
-    private List<Movie> movies; // Add movies list
-    private Map<String, Concession> concessions; // Add concessions map
+    private List<Movie> movies;
+    private Map<String, Concession> concessions;
 
+    /**
+     * Constructs the ApplicationManager with the required components.
+     *
+     * @param menuManager Handles menu navigation.
+     * @param authService Manages user authentication.
+     */
     public ApplicationManager(MenuManager menuManager, AuthenticationService authService) {
         this.menuManager = menuManager;
         this.authService = authService;
     }
 
     /**
-     * Initializes system components.
+     * Displays system initialization message.
      */
     public void initialize() {
         System.out.println("System initializing...");
     }
 
     /**
-     * Shuts down system components.
+     * Displays system shutdown message.
      */
     public void shutdown() {
         System.out.println("System shutting down...");
     }
 
+    /**
+     * Sets the movie list used by the system.
+     *
+     * @param movies The list of movies.
+     */
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
-    
+
+    /**
+     * Sets the available concession items.
+     *
+     * @param concessions The concession map.
+     */
     public void setConcessions(Map<String, Concession> concessions) {
         this.concessions = concessions;
     }
 
     /**
-     * Starts the application and handles user authentication.
+     * Starts the system and handles the login loop.
      */
     public void start() {
         while (true) {
@@ -59,13 +76,13 @@ public class ApplicationManager {
     }
 
     /**
-     * Authenticates the user.
+     * Displays login menu and authenticates the user.
      *
-     * @return The authenticated user, or null if authentication fails.
+     * @return The authenticated user or null if exiting.
      */
     private Person authenticateUser() {
         Scanner scanner = new Scanner(System.in);
-    
+
         while (true) {
             System.out.println("\n=== Login Menu ===");
             System.out.println("1. Login");
@@ -73,20 +90,19 @@ public class ApplicationManager {
             System.out.println("3. Create an Account");
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
-    
+
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-    
+            scanner.nextLine();
+
             switch (choice) {
                 case 1:
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
                     System.out.print("Enter password: ");
                     String password = scanner.nextLine();
-    
+
                     Person user = authService.authenticate(username, password);
                     if (user != null) {
-                        // Dynamically set up the CustomerMenu
                         menuManager.setCustomerMenu(new CustomerMenu(movies, user, concessions));
                         return user;
                     } else {
@@ -95,7 +111,6 @@ public class ApplicationManager {
                     break;
                 case 2:
                     Guest guest = authService.loginAsGuest();
-                    // Dynamically set up the CustomerMenu for the guest
                     menuManager.setCustomerMenu(new CustomerMenu(movies, guest, concessions));
                     return guest;
                 case 3:
@@ -110,9 +125,9 @@ public class ApplicationManager {
     }
 
     /**
-     * Creates a new customer account.
+     * Prompts the user for account information and registers a new customer.
      *
-     * @param scanner The Scanner object for user input.
+     * @param scanner Scanner object for user input.
      */
     private void createAccount(Scanner scanner) {
         System.out.println("\n=== Create an Account ===");
@@ -122,14 +137,11 @@ public class ApplicationManager {
         String email = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
-    
-        // Generate a unique ID for the customer
+
         String customerId = "Customer" + (authService.getCustomers().size() + 1);
-    
-        // Create a new customer and add it to the list
         Customer newCustomer = new Customer(customerId, name, email, password);
         authService.addCustomer(newCustomer);
-    
+
         System.out.println("Account created successfully. You can now log in.");
     }
 }

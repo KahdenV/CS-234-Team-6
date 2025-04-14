@@ -13,7 +13,14 @@ public class StaffMenu {
     private Map<String, Concession> concessions;
     private List<Screen> screens = new ArrayList<>();
 
-    // Updated constructor to match the call in MovieTheaterSystem
+    /**
+     * Constructor to initialize the StaffMenu with necessary data.
+     * 
+     * @param staff       List of staff members.
+     * @param customers   List of customers.
+     * @param movies      List of movies.
+     * @param concessions Map of concession items.
+     */
     public StaffMenu(List<Staff> staff, List<Customer> customers, List<Movie> movies, Map<String, Concession> concessions) {
         this.staff = staff;
         this.customers = customers;
@@ -21,6 +28,9 @@ public class StaffMenu {
         this.concessions = concessions;
     }
 
+    /**
+     * Displays the main staff menu and handles user interactions.
+     */
     public void showStaffMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -76,10 +86,10 @@ public class StaffMenu {
                     viewPayments();
                     break;
                 case 11:
-                    staffMenuOptions(); // Call the method to show staff menu options
+                    staffMenuOptions();
                     break;
                 case 12:
-                    running = false; // Log out and return to the login menu
+                    running = false;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -87,6 +97,9 @@ public class StaffMenu {
         }
     }
 
+    /**
+     * Displays options for managing screens and handles user interactions.
+     */
     public void staffMenuOptions() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -131,73 +144,78 @@ public class StaffMenu {
         }
     }
 
+    /**
+     * Creates and assigns a showtime to a screen.
+     * 
+     * @param scanner Scanner object for user input.
+     */
     private void createAndAssignShowtime(Scanner scanner) {
         System.out.println("\n=== Create and Assign Showtime ===");
-    
-        // Ensure movies exist
+
         if (movies.isEmpty()) {
             System.out.println("No movies available. Please add movies first.");
             return;
         }
-    
-        // Display available movies
+
         System.out.println("Available Movies:");
         for (int i = 0; i < movies.size(); i++) {
             System.out.println((i + 1) + ". " + movies.get(i).getMovieTitle());
         }
-    
-        // Select a movie
+
         System.out.print("Select a movie by number: ");
         int movieChoice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
+
         if (movieChoice < 1 || movieChoice > movies.size()) {
             System.out.println("Invalid selection.");
             return;
         }
         Movie selectedMovie = movies.get(movieChoice - 1);
-    
-        // Create showtime
+
         System.out.print("Enter showtime (e.g., '12:00 PM'): ");
         String showtimeTime = scanner.nextLine();
-    
-        // Ensure screens exist
+
         if (screens.isEmpty()) {
             System.out.println("No screens available. Please add screens first.");
             return;
         }
-    
-        // Display available screens
+
         System.out.println("Available Screens:");
         for (int i = 0; i < screens.size(); i++) {
             System.out.println((i + 1) + ". " + screens.get(i).getScreenId());
         }
-    
-        // Select a screen
+
         System.out.print("Select a screen by number: ");
         int screenChoice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
+
         if (screenChoice < 1 || screenChoice > screens.size()) {
             System.out.println("Invalid selection.");
             return;
         }
         Screen selectedScreen = screens.get(screenChoice - 1);
-    
-        // Create and save the new showtime
+
         Showtime newShowtime = new Showtime(selectedMovie, selectedScreen, showtimeTime);
-        DummyData.addShowtime(newShowtime); // Add to centralized list
-    
+        DummyData.addShowtime(newShowtime);
+
         System.out.println("Showtime '" + showtimeTime + "' assigned to screen '" + selectedScreen.getScreenId() + "' for movie '" + selectedMovie.getMovieTitle() + "'.");
     }
 
-    // Other methods like createScreen, displayScreens, editScreen, etc., remain unchanged
+    /**
+     * Creates a new screen.
+     * 
+     * @param screenId Screen ID.
+     * @param capacity Screen capacity.
+     */
     public void createScreen(String screenId, int capacity) {
         Screen screen = new Screen(screenId, capacity);
         screens.add(screen);
         System.out.println("Screen created: " + screenId);
     }
 
+    /**
+     * Displays all available screens.
+     */
     public void displayScreens() {
         if (screens.isEmpty()) {
             System.out.println("No screens available.");
@@ -208,6 +226,11 @@ public class StaffMenu {
         }
     }
 
+    /**
+     * Edits an existing screen's details.
+     * 
+     * @param scanner Scanner object for user input.
+     */
     private void editScreen(Scanner scanner) {
         System.out.println("Enter screen ID to edit:");
         String editScreenId = scanner.nextLine();
@@ -244,7 +267,7 @@ public class StaffMenu {
     }
 
     /**
-     * Displays all concession items as inventory.
+     * Displays inventory of concession items.
      */
     private void viewInventory() {
         System.out.println("\n=== Inventory ===");
@@ -259,8 +282,8 @@ public class StaffMenu {
 
     /**
      * Adds a new concession item to the inventory.
-     *
-     * @param scanner The Scanner object for user input.
+     * 
+     * @param scanner Scanner object for user input.
      */
     private void addStock(Scanner scanner) {
         System.out.println("\n=== Add Stock ===");
@@ -277,8 +300,8 @@ public class StaffMenu {
 
     /**
      * Updates an existing concession item in the inventory.
-     *
-     * @param scanner The Scanner object for user input.
+     * 
+     * @param scanner Scanner object for user input.
      */
     private void updateStock(Scanner scanner) {
         System.out.println("\n=== Update Stock ===");
@@ -294,46 +317,39 @@ public class StaffMenu {
     }
 
     /**
-    * Adds a new movie to the list.
-    *
-    * @param scanner The Scanner object for user input.
-    */
+     * Adds a new movie to the list.
+     * 
+     * @param scanner Scanner object for user input.
+     */
     private void addMovie(Scanner scanner) {
         System.out.println("\n=== Add New Movie ===");
-    
-        // Create a new movie instance
+
         Movie newMovie = new Movie();
-    
-        // Set title
+
         System.out.print("Enter movie title: ");
         String title = scanner.nextLine();
         newMovie.setMovieTitle(title);
-    
-        // Set genre using predefined selections
+
         newMovie.setMovieGenres();
-    
-        // Set runtime (direct input)
+
         System.out.print("Enter movie runtime (in minutes): ");
         int runtime = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-        newMovie.movieRuntime = runtime; // Directly set runtime instead of using setMovieRuntime()
-    
-        // Set rating using predefined selections
+        newMovie.movieRuntime = runtime;
+
         newMovie.setMovieRating();
-    
-        // Set release date
+
         newMovie.setMovieReleaseDate();
-    
-        // Add new movie to the list
+
         movies.add(newMovie);
-    
+
         System.out.println("New movie added successfully.");
     }
 
     /**
      * Adds a new staff member.
-     *
-     * @param scanner The Scanner object for user input.
+     * 
+     * @param scanner Scanner object for user input.
      */
     private void addNewStaff(Scanner scanner) {
         System.out.println("\n=== Add New Staff ===");
@@ -372,8 +388,8 @@ public class StaffMenu {
 
     /**
      * Updates an existing movie.
-     *
-     * @param scanner The Scanner object for user input.
+     * 
+     * @param scanner Scanner object for user input.
      */
     private void updateMovie(Scanner scanner) {
         System.out.println("\n=== Update Movie ===");
@@ -383,7 +399,6 @@ public class StaffMenu {
         for (Movie movie : movies) {
             if (movie.getMovieTitle().equalsIgnoreCase(title)) {
                 System.out.println("Movie found. Updating details...");
-                // Movie update logic here
                 return;
             }
         }
@@ -392,6 +407,8 @@ public class StaffMenu {
 
     /**
      * Manages staff-related actions, including refunds.
+     * 
+     * @param scanner Scanner object for user input.
      */
     private void manageRefunds(Scanner scanner) {
         System.out.println("\n=== Manage Refunds ===");
@@ -410,7 +427,7 @@ public class StaffMenu {
             System.out.println("No payments have been processed.");
         } else {
             for (Payment payment : Payment.getPaymentRecords().values()) {
-                System.out.println(payment); // Assumes the Payment class has a meaningful toString() method
+                System.out.println(payment);
             }
         }
     }

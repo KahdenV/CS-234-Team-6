@@ -4,48 +4,67 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Utility class for creating dummy data for customers, staff, movies, and concessions.
+ * Utility class for creating dummy data for customers, staff, movies, showtimes, and concessions.
  */
 public class DummyData {
-    // Store concession items in a static map
     private static final Map<String, Concession> concessionMenu = new HashMap<>();
     private static List<Showtime> showtimes = new ArrayList<>();
     private static Map<String, List<Ticket>> ticketsByCustomer = new HashMap<>();
 
+    /**
+     * Adds a showtime to the central list.
+     *
+     * @param showtime The showtime to add.
+     */
     public static void addShowtime(Showtime showtime) {
         showtimes.add(showtime);
     }
 
+    /**
+     * Retrieves all registered showtimes.
+     *
+     * @return A list of showtimes.
+     */
     public static List<Showtime> getShowtimes() {
         return new ArrayList<>(showtimes);
     }
 
+    /**
+     * Retrieves tickets purchased by a specific customer.
+     *
+     * @param customerId The customer's ID.
+     * @return A list of tickets.
+     */
     public static List<Ticket> getTicketsByCustomer(String customerId) {
         return ticketsByCustomer.getOrDefault(customerId, new ArrayList<>());
     }
-    
+
+    /**
+     * Adds a ticket to the customer's ticket list.
+     *
+     * @param customerId The ID of the customer.
+     * @param ticket The ticket to add.
+     */
     public static void addTicket(String customerId, Ticket ticket) {
         ticketsByCustomer.computeIfAbsent(customerId, k -> new ArrayList<>()).add(ticket);
     }
 
-
     /**
-     * Creates a list of dummy customers.
+     * Creates a sample list of dummy customers.
      *
-     * @return A list of dummy customers.
+     * @return A list of Customer objects.
      */
     public static List<Customer> createDummyCustomers() {
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer("Customer1", "John Doe", "john", "pass123"));
         customers.add(new Customer("Customer2", "Jane Smith", "jane", "pass456"));
-        // Ensure no email or password is left null
         return customers;
     }
 
     /**
-     * Creates a list of dummy staff members.
+     * Creates a sample list of dummy staff members.
      *
-     * @return A list of dummy staff members.
+     * @return A list of Staff objects.
      */
     public static List<Staff> createDummyStaff() {
         List<Staff> staff = new ArrayList<>();
@@ -55,38 +74,38 @@ public class DummyData {
     }
 
     /**
-     * Creates a list of dummy movies.
+     * Creates a sample list of dummy movies.
      *
-     * @return A list of dummy movies.
+     * @return A list of Movie objects.
      */
     public static List<Movie> createDummyMovies() {
         List<Movie> movies = new ArrayList<>();
-    
-        // Add first movie
+
         Movie movie1 = new Movie();
-        movie1.setMovieID("001"); // Ensure unique ID
+        movie1.setMovieID("001");
         movie1.setMovieTitle("Inception");
         movie1.movieGenres = "Sci-Fi, Thriller";
         movie1.movieRuntime = 148;
         movie1.movieRating = "PG-13";
         movie1.movieReleaseDate = "07/16/2010";
         movies.add(movie1);
-    
-        // Add second movie
+
         Movie movie2 = new Movie();
-        movie2.setMovieID("002"); // Ensure unique ID
+        movie2.setMovieID("002");
         movie2.setMovieTitle("The Dark Knight");
         movie2.movieGenres = "Action, Crime";
         movie2.movieRuntime = 152;
         movie2.movieRating = "PG-13";
         movie2.movieReleaseDate = "07/18/2008";
         movies.add(movie2);
-    
+
         return movies;
     }
 
     /**
-     * Initializes dummy concessions data.
+     * Initializes and returns a map of dummy concession items.
+     *
+     * @return A map of concession items keyed by ID.
      */
     public static Map<String, Concession> createDummyConcessions() {
         if (concessionMenu.isEmpty()) {
@@ -104,5 +123,4 @@ public class DummyData {
         }
         return concessionMenu;
     }
-
 }

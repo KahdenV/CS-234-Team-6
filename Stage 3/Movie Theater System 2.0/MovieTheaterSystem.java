@@ -12,26 +12,32 @@ public class MovieTheaterSystem {
     private Map<String, Concession> concessions;
     private List<Showtime> showtimes;
 
+    /**
+     * Constructs the MovieTheaterSystem with dummy data for all major components.
+     */
     public MovieTheaterSystem() {
         customers = DummyData.createDummyCustomers();
         staff = DummyData.createDummyStaff();
         movies = DummyData.createDummyMovies();
-        concessions = DummyData.createDummyConcessions(); // Initialize dummy concessions
-        showtimes = DummyData.getShowtimes(); // Initialize showtimes
+        concessions = DummyData.createDummyConcessions();
+        showtimes = DummyData.getShowtimes();
 
-        // Populate the global Concession menu with dummy data
         Concession.getConcessionMenu().putAll(concessions);
     }
 
+    /**
+     * Returns the authentication service.
+     *
+     * @return The AuthenticationService instance.
+     */
     public AuthenticationService getAuthService() {
         return authService;
     }
 
     /**
-     * Initializes the movie theater system.
+     * Initializes the authentication service.
      */
     public void initialize() {
-        // Initialize the auth service with the dummy data
         authService = new AuthenticationService(customers, staff);
     }
 
@@ -44,33 +50,37 @@ public class MovieTheaterSystem {
         return concessions;
     }
 
+    /**
+     * Returns the list of showtimes.
+     *
+     * @return List of showtimes.
+     */
     public List<Showtime> getShowtimes() {
         return showtimes;
     }
 
     /**
-     * Shows the main menu and starts the application.
+     * Displays the main menu and starts the application lifecycle.
      */
     public void showMainMenu() {
-        // Initialize the MenuManager without pre-creating CustomerMenu
         MenuManager menuManager = new MenuManager(
-            null, // CustomerMenu will be initialized dynamically
-            new StaffMenu(staff, customers, movies, concessions) // StaffMenu remains the same
+            null,
+            new StaffMenu(staff, customers, movies, concessions)
         );
         ApplicationManager appManager = new ApplicationManager(menuManager, authService);
         appManager.setMovies(movies);
         appManager.setConcessions(concessions);
-
-        // Start the application lifecycle
         appManager.start();
     }
 
+    /**
+     * Main entry point for the application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
-        // Initialize the MovieTheaterSystem
         MovieTheaterSystem system = new MovieTheaterSystem();
         system.initialize();
-
-        // Start the main menu
         system.showMainMenu();
     }
 }

@@ -11,15 +11,23 @@ public class CustomerMenu {
     private Map<String, Concession> concessions;
     private List<Showtime> showtimes;
 
+    /**
+     * Constructs a customer menu interface.
+     *
+     * @param movies       List of available movies.
+     * @param user         The logged-in user.
+     * @param concessions  The available concessions.
+     */
     public CustomerMenu(List<Movie> movies, Person user, Map<String, Concession> concessions) {
         this.movies = movies;
-        this.customerId = user.getId(); // Dynamically fetch the user ID
+        this.customerId = user.getId();
         this.concessions = concessions;
-    
-        // Use centralized showtimes
         this.showtimes = DummyData.getShowtimes();
     }
 
+    /**
+     * Displays the main menu and handles user input.
+     */
     public void showCustomerMenu() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -62,7 +70,7 @@ public class CustomerMenu {
                     purchaseConcessions(scanner);
                     break;
                 case 8:
-                    running = false; // Log out and return to the login menu
+                    running = false;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -70,10 +78,13 @@ public class CustomerMenu {
         }
     }
 
+    /**
+     * Displays a list of all showtimes.
+     */
     public void viewAllShowtimes() {
         System.out.println("\n=== View All Showtimes ===");
         List<Showtime> showtimes = DummyData.getShowtimes();
-    
+
         if (showtimes.isEmpty()) {
             System.out.println("No showtimes available.");
         } else {
@@ -84,7 +95,7 @@ public class CustomerMenu {
     }
 
     /**
-     * Displays all available concession items.
+     * Displays all concession items.
      */
     public void viewConcessions() {
         System.out.println("\n=== Available Concessions ===");
@@ -108,27 +119,25 @@ public class CustomerMenu {
         }
     }
 
-
     /**
-     * Searches for a movie by title and displays its details along with associated showtimes.
-    *
-    * @param scanner The Scanner object for user input.
-    */
+     * Searches for a movie by title and shows related showtimes.
+     *
+     * @param scanner Scanner used to get user input.
+     */
     private void searchMovie(Scanner scanner) {
         System.out.print("\nEnter movie title to search: ");
         String title = scanner.nextLine();
-    
+
         boolean movieFound = false;
-    
+
         for (Movie movie : movies) {
             if (movie.getMovieTitle().equalsIgnoreCase(title)) {
                 movie.printMovieDetails();
                 movieFound = true;
-    
+
                 System.out.println("\n=== Associated Showtimes ===");
                 boolean showtimeFound = false;
-    
-                // Display showtimes for this movie
+
                 if (showtimes != null && !showtimes.isEmpty()) {
                     for (Showtime showtime : showtimes) {
                         if (showtime.getShownMovie().equals(movie)) {
@@ -137,29 +146,23 @@ public class CustomerMenu {
                         }
                     }
                 }
-    
+
                 if (!showtimeFound) {
                     System.out.println("No showtimes available for this movie.");
                 }
-                return; // Exit after showing the movie and its showtimes
+                return;
             }
         }
-    
+
         if (!movieFound) {
             System.out.println("Movie not found.");
         }
     }
 
     /**
-     * Books a ticket for the customer and processes the payment.
+     * Allows the customer to purchase a concession item.
      *
-     * @param scanner The Scanner object for user input.
-     */
-
-    /**
-     * Allows the customer to purchase a concession item and processes the payment.
-     *
-     * @param scanner The Scanner object for user input.
+     * @param scanner Scanner used to read user input.
      */
     private void purchaseConcessions(Scanner scanner) {
         System.out.println("\n=== Purchase Concessions ===");
@@ -168,7 +171,6 @@ public class CustomerMenu {
 
         Concession item = Concession.getConcessionMenu().get(itemId);
         if (item != null) {
-            // Process payment
             Payment payment = Payment.processPayment(customerId, item.getPrice());
             System.out.println("Concession purchased successfully! Payment ID: " + payment.getPaymentId());
         } else {
@@ -176,54 +178,58 @@ public class CustomerMenu {
         }
     }
 
+    /**
+     * Handles the ticket booking process.
+     *
+     * @param scanner Scanner used to read user input.
+     */
     public void buyTicket(Scanner scanner) {
         System.out.println("\n=== Buy Ticket ===");
         List<Showtime> showtimes = DummyData.getShowtimes();
-    
+
         if (showtimes.isEmpty()) {
             System.out.println("No showtimes available.");
             return;
         }
-    
+
         System.out.println("Available Showtimes:");
         for (int i = 0; i < showtimes.size(); i++) {
             System.out.println((i + 1) + ". " + showtimes.get(i));
         }
-    
-        // Select a showtime
+
         System.out.print("Select a showtime by number: ");
         int showtimeChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-    
+        scanner.nextLine();
+
         if (showtimeChoice < 1 || showtimeChoice > showtimes.size()) {
             System.out.println("Invalid choice.");
             return;
         }
-    
+
         Showtime selectedShowtime = showtimes.get(showtimeChoice - 1);
-    
-        // Check available seats
+
         if (selectedShowtime.getAvailableSeats() <= 0) {
             System.out.println("No seats available for this showtime.");
             return;
         }
-    
-        // Generate a ticket ID and use the correct customer ID
+
         String ticketId = "TICKET-" + (DummyData.getTicketsByCustomer(customerId).size() + 1);
         Ticket newTicket = new Ticket(ticketId, this.customerId, selectedShowtime, selectedShowtime.getShownMovie());
-    
-        // Reduce available seats and save the ticket
+
         selectedShowtime.reduceAvailableSeats(1);
         DummyData.addTicket(this.customerId, newTicket);
-    
+
         System.out.println("Ticket purchased successfully!");
         System.out.println(newTicket);
     }
 
+    /**
+     * Displays the customer's tickets.
+     */
     public void viewTickets() {
         System.out.println("\n=== Your Tickets ===");
         List<Ticket> tickets = DummyData.getTicketsByCustomer(customerId);
-    
+
         if (tickets.isEmpty()) {
             System.out.println("You have no tickets.");
         } else {
