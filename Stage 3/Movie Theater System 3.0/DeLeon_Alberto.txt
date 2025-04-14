@@ -1,0 +1,12 @@
+Team Member - Alberto De Leon
+
+Contributions
+
+  Helped create different blocks of code to implement wanted features.
+  
+  Created
+       Concession.java
+       Payment.java
+       Screen.java
+
+  Worked on majority of integration of all files together
