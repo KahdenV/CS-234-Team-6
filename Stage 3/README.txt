@@ -1,5 +1,6 @@
 # Movie Theater System
 
+<<<<<<< HEAD
 ## Overview
 
 This is a simple Java application for managing a movie theater system.
@@ -27,3 +28,12 @@ This is a simple Java application for managing a movie theater system.
     java Main
 
     This command runs the `Main` class, which is the entry point of the application.
+=======
+
+# MOVIE THEATER SYSTEM 3.0 IS OUR SUBMISSIOn
+
+The previous versions are there to show user inputs
+
+
+Readme Stage 3
+>>>>>>> e6933938b39ee1ddeff79be299ab15b4766f00c0

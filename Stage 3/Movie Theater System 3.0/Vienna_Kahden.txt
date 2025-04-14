@@ -1,0 +1,19 @@
+Team Member - Kahden Vienna
+
+Contributions
+  Created
+        ApplicationManager.java
+        AuthenticationService.java
+        Customer.java
+        CustomerMenu.java
+        DummyData.java
+        Guest.java
+        MenuManager.java
+        MovieTheaterSystem.java
+        Person.java
+        Staff.java
+        StaffMenu.java
+        README.txt
+        User Guide For Movie Theater
+
+  Worked on majority of integration of all files together
