@@ -1,0 +1,5 @@
+Team Member: Lazo McCarroll
+Contribution Summary:
+
+	Worked on all files, in particular the Movie(), Ticket(), and Showtime() classes, which were initially mine
+	Did comprehensive organizing and restructuring of CustomerMenu() and StaffMenu() classes
