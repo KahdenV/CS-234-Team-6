@@ -127,7 +127,15 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
         if (person != null) {
             JOptionPane.showMessageDialog(this, "Login succesful! Welcome, " + person.getName());
             this.dispose();
-            system.showMainMenu();
+            if (person instanceof Customer) {
+                java.awt.EventQueue.invokeLater(() -> {
+                new CustomerMenu_GUI().setVisible(true);
+            });
+            } else if (person instanceof Staff) {
+                // TODO: Open staff GUI here
+                JOptionPane.showMessageDialog(this, "Logged in as staff. (Add staff GUI here)");
+            }
+            
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
