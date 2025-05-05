@@ -4,6 +4,5 @@ public class Main
     {
         // Initialize the MovieTheaterSystem
         new LoginWindow_GUI().setVisible(true);
-        MovieTheaterSystem system = new MovieTheaterSystem();
     }
 } 

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -9,11 +10,15 @@
  */
 public class LoginWindow_GUI extends javax.swing.JFrame {
 
+    private MovieTheaterSystem system;
+    private AuthenticationService authService;
     /**
      * Creates new form LoginWindow_GUI7
      */
     public LoginWindow_GUI() {
         initComponents();
+        system = new MovieTheaterSystem();
+        authService = system.getAuthService();
     }
 
     /**
@@ -77,13 +82,13 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                                 .addGap(265, 265, 265)
                                 .addComponent(Login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(268, 268, 268)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(248, 248, 248)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Login_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(Login_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(270, 270, 270)
+                        .addComponent(jButton2)))
                 .addContainerGap(256, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -114,7 +119,19 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
 
     private void Login_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login_ButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("I was ckucjed");
+        String username = UserInput_TextField.getText();
+        String password = new String(PasswordInput_PasswordField.getPassword());
+        
+        Person person = authService.authenticate(username, password);
+        
+        if (person != null) {
+            JOptionPane.showMessageDialog(this, "Login succesful! Welcome, " + person.getName());
+            this.dispose();
+            system.showMainMenu();
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
+     
     }//GEN-LAST:event_Login_ButtonActionPerformed
 
     /**

@@ -29,7 +29,6 @@ public class MovieTheaterSystem {
         Concession.getConcessionMenu().putAll(concessions);
 
         initialize();
-        showMainMenu();
     }
 
 
