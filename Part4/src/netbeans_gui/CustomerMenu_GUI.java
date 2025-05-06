@@ -29,9 +29,11 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         Logout_button = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Concession_Button = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
         contentPanel = new javax.swing.JPanel();
+        MovieShowtime_Button = new javax.swing.JButton();
+        PurchaseTicket_Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -49,13 +51,13 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         });
         getContentPane().add(Logout_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, -1, -1));
 
-        jButton1.setText("Movies & Showtimes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Concession_Button.setText("Concessions");
+        Concession_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Concession_ButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 290, 60));
+        getContentPane().add(Concession_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 290, 60));
 
         scrollPane.setMinimumSize(new java.awt.Dimension(400, 360));
 
@@ -76,18 +78,44 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
 
         getContentPane().add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 470, 450));
 
+        MovieShowtime_Button.setText("Movies & Showtimes");
+        MovieShowtime_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MovieShowtime_ButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(MovieShowtime_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 290, 60));
+
+        PurchaseTicket_Button.setText("Purchase Ticket");
+        PurchaseTicket_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PurchaseTicket_ButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(PurchaseTicket_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 290, 60));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadMovies();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void Concession_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Concession_ButtonActionPerformed
+        JOptionPane.showMessageDialog(this, "TODO");
+    }//GEN-LAST:event_Concession_ButtonActionPerformed
 
     private void Logout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_buttonActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "TODO");
     }//GEN-LAST:event_Logout_buttonActionPerformed
+
+    private void MovieShowtime_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MovieShowtime_ButtonActionPerformed
+        // TODO add your handling code here:
+        loadMovies();
+    }//GEN-LAST:event_MovieShowtime_ButtonActionPerformed
+
+    private void PurchaseTicket_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseTicket_ButtonActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "TODO");
+    }//GEN-LAST:event_PurchaseTicket_ButtonActionPerformed
   
         private void loadMovies() {
         contentPanel.removeAll();
@@ -141,9 +169,11 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Concession_Button;
     private javax.swing.JButton Logout_button;
+    private javax.swing.JButton MovieShowtime_Button;
+    private javax.swing.JButton PurchaseTicket_Button;
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
