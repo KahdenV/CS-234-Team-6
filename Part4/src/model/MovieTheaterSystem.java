@@ -1,5 +1,14 @@
+package model;
+
+
+
+import model.DummyData;
+import model.Concession;
+import model.Customer;
 import java.util.List;
 import java.util.Map;
+import service.*;
+import io.*;
 
 /**
  * Main class for managing the movie theater system.
@@ -18,10 +27,10 @@ public class MovieTheaterSystem {
      * Constructs the MovieTheaterSystem with dummy data for all major components.
      */
     public MovieTheaterSystem() {
-        customers = DummyData.createDummyCustomers();
-        staff = DummyData.createDummyStaff();
-        movies = DummyData.createDummyMovies();
-        concessions = DummyData.createDummyConcessions(); // Initialize dummy concessions
+        customers = CustomerIO.loadCustomers("data/customers.txt");
+        staff = StaffIO.loadStaff("data/staff.txt");
+        movies = MovieIO.loadMovies("data/movies.txt");
+        concessions = ConcessionIO.loadConcessions("data/concessions.txt");
         screens = DummyData.createDummyScreens();
         showtimes = DummyData.createDummyShowtimes(movies, screens); // Initialize showtimes
 

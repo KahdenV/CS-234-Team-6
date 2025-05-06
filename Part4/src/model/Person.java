@@ -1,3 +1,7 @@
+package model;
+
+
+
 /**
  * Class representing a person with basic information.
  */

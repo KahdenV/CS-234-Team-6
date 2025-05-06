@@ -1,3 +1,13 @@
+package service;
+
+import model.MenuManager;
+import model.CustomerMenu;
+import model.Guest;
+import model.Movie;
+import model.Concession;
+import model.Customer;
+import model.Person;
+import model.Showtime;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;

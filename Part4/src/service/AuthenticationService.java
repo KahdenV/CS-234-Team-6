@@ -1,4 +1,11 @@
+package service;
+
+import model.Staff;
+import model.Guest;
+import model.Customer;
+import model.Person;
 import java.util.List;
+
 /**
  * Handles authentication and account management for customers, staff, and guests.
  */

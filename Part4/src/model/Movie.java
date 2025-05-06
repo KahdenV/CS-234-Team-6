@@ -1,3 +1,7 @@
+package model;
+
+
+
 import java.util.Scanner;
 
 /**
@@ -85,12 +89,21 @@ public class Movie {
         return movieReleaseDate;
     }
 
-    public void setMovieID(String finalID) {
-        int newID = Integer.parseInt(finalID)+1;
-        if (newID<10 && newID>(-1)) {movieID = "0" + "0" + newID;}
-        else if (newID>10 && newID<100) {movieID = "0" + newID;}
-        else if (newID>100) {movieID = String.valueOf(newID);}
+    public void setMovieID(String id) {
+        this.movieID = id;
     }
+    
+    public void generateMovieID(int lastID) {
+        int newID = lastID + 1;
+        if (newID < 10) {
+            this.movieID = "00" + newID;
+        } else if (newID < 100) {
+            this.movieID = "0" + newID;
+        } else {
+            this.movieID = String.valueOf(newID);
+        }
+    }
+    
 
      /**
      * Prompts the user to choose genres from a predefined list.
@@ -190,4 +203,26 @@ public class Movie {
         System.out.println("Runtime: " + movieRuntime + " minutes");
         System.out.println("Genre: " + movieGenres);
     }
+
+    
+    public void setMovieTitleFromFile(String title) {
+        this.movieTitle = title;
+    }
+
+    public void setMovieGenresFromFile(String genres) {
+        this.movieGenres = genres;
+    }
+
+    public void setMovieRuntimeFromFile(int runtime) {
+        this.movieRuntime = runtime;
+    }
+
+    public void setMovieRatingFromFile(String rating) {
+        this.movieRating = rating;
+    }
+
+    public void setMovieReleaseDateFromFile(String releaseDate) {
+        this.movieReleaseDate = releaseDate;
+    }
+
 }

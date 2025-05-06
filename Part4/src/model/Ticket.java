@@ -1,3 +1,7 @@
+package model;
+
+
+
 public class Ticket
 /**
  * Represents a movie ticket purchased by a customer.

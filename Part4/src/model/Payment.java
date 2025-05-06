@@ -1,3 +1,7 @@
+package model;
+
+
+
 import java.util.Date; // For the Date class
 import java.util.Map; // For the Map interface
 import java.util.HashMap; // For the HashMap implementation

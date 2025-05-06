@@ -1,3 +1,7 @@
+package model;
+
+
+
 public class Guest extends Person {
     private String id; // Unique ID for the guest
 

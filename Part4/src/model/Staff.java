@@ -1,3 +1,7 @@
+package model;
+
+
+
 /**
  * Class representing a staff member, extends the Person class.
  */

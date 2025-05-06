@@ -1,3 +1,12 @@
+package model;
+
+
+import model.CustomerMenu;
+import model.Customer;
+import model.Guest;
+
+
+
 public class MenuManager {
     private CustomerMenu customerMenu;
     private StaffMenu staffMenu;

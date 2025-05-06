@@ -1,3 +1,9 @@
+package model;
+
+
+
+import model.Concession;
+import model.Customer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

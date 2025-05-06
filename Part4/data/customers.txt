@@ -1,0 +1,4 @@
+C000,Tester,test,test
+C001,Alice,alice@example.com,password123
+C002,Bob,bob@example.com,pass456
+C003,Kahden,kahden@example.com,pass123

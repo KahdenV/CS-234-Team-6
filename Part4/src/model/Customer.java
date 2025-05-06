@@ -1,3 +1,7 @@
+package model;
+
+
+
 public class Customer extends Person {
     private String email;
     private String password;
@@ -13,8 +17,8 @@ public class Customer extends Person {
      */
     public Customer(String id, String name, String email, String password) {
         super(id); // Calls Person constructor
-        this.id = id;                // ✅ Fix: Set local ID field
-        this.setName(name);         // ✅ Fix: Set name (assuming Person has setName)
+        this.id = id;                
+        this.setName(name);        
         this.email = email;
         this.password = password;
     }
