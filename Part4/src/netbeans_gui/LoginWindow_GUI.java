@@ -49,21 +49,28 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Window");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setMinimumSize(new java.awt.Dimension(640, 360));
+        setPreferredSize(new java.awt.Dimension(640, 360));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Login_Label.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        Login_Label.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         Login_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Login_Label.setText("Login");
+        getContentPane().add(Login_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         UserInput_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        UserInput_TextField.setToolTipText("User");
+        UserInput_TextField.setToolTipText("Username");
         UserInput_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserInput_TextFieldActionPerformed(evt);
             }
         });
+        getContentPane().add(UserInput_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 180, 30));
 
         PasswordInput_PasswordField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PasswordInput_PasswordField.setToolTipText("Password");
+        getContentPane().add(PasswordInput_PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 180, 30));
 
         Login_Button.setText("Login");
         Login_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +78,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 Login_ButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(Login_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 140, 30));
 
         jButton1.setText("Create Account");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +86,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 140, 30));
 
         jButton2.setText("Skip");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -85,49 +94,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(UserInput_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(236, 236, 236)
-                                .addComponent(PasswordInput_PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(265, 265, 265)
-                                .addComponent(Login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addComponent(Login_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(279, 279, 279)
-                        .addComponent(jButton2)))
-                .addContainerGap(256, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(Login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UserInput_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordInput_PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(Login_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 100, -1));
 
         pack();
         setLocationRelativeTo(null);
