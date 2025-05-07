@@ -10,9 +10,19 @@ import service.AuthenticationService;
 import model.Person;
 import model.MovieTheaterSystem;
 import model.Customer;
-import javax.swing.JOptionPane;
-
+import javax.swing.*;
+import java.awt.GridLayout;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import model.*;
+import io.*;
 
 /**
  *
@@ -130,14 +140,74 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_Login_ButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "TODO");
+        JFrame frame = new JFrame("Create Account");
+        frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(5, 2));
+
+        JTextField usernameField = new JTextField();
+        JTextField emailField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+            
+            String nextID = getNextCustomerID();
+            if (nextID == null) {
+                JOptionPane.showMessageDialog(frame, "Failed to generate ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String record = nextID + ";" + username + ";" + email + ";" + password + "\n";
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/customers.txt", true))) {
+                writer.write(record);
+                JOptionPane.showMessageDialog(frame, "Account Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                frame.dispose();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(frame, "Failed to save account.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        frame.add(new JLabel("Username:"));
+        frame.add(usernameField);
+        frame.add(new JLabel("Email:"));
+        frame.add(emailField);
+        frame.add(new JLabel("Password:"));
+        frame.add(passwordField);
+        frame.add(new JLabel());
+        frame.add(saveButton);
+
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "TODO");
+        this.dispose();
+        new CustomerMenu_GUI().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private String getNextCustomerID() {
+        int maxID = -1;
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/customers.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
+                if (parts.length > 0 && parts[0].startsWith("C")) {
+                    String numericPart = parts[0].substring(1); // e.g., from C003 → 003
+                    int currentID = Integer.parseInt(numericPart);
+                    if (currentID > maxID) {
+                        maxID = currentID;
+                    }
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return "C" + String.format("%03d", maxID + 1);
+    }
 
     /**
      * @param args the command line arguments
