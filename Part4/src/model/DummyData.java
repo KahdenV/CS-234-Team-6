@@ -112,8 +112,8 @@ public class DummyData {
     public static List<Showtime> createDummyShowtimes(List<Movie> movies, List<Screen> screens) {
         List<Showtime> showtimes = new ArrayList<>();
 
-        Showtime showtime1 = new Showtime(movies.get(0), screens.get(0), "4:30 PM");
-        Showtime showtime2 = new Showtime(movies.get(1), screens.get(1), "2:00 PM");
+        Showtime showtime1 = new Showtime(movies.get(0), screens.get(0), "4:30 PM", List.of("A0"));
+        Showtime showtime2 = new Showtime(movies.get(1), screens.get(1), "2:00 PM", List.of("A0"));
 
         showtimes.add(showtime1);
         showtimes.add(showtime2);

@@ -125,8 +125,9 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Login succesful! Welcome, " + person.getName());
             this.dispose();
             if (person instanceof Customer) {
+                Customer customer = (Customer) person;
                 java.awt.EventQueue.invokeLater(() -> {
-                new CustomerMenu_GUI().setVisible(true);
+                    new CustomerMenu_GUI(customer).setVisible(true);
             });
             } else if (person instanceof Staff) {
                 // TODO: Open staff GUI here
@@ -192,7 +193,8 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
-        new CustomerMenu_GUI().setVisible(true);
+        Customer guest = new Customer("GUEST000", "Guest", "guest@guest.com", ""); // or null
+        new CustomerMenu_GUI(guest).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private String getNextCustomerID() {

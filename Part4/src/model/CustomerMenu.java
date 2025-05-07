@@ -219,17 +219,12 @@ public class CustomerMenu {
         Showtime selectedShowtime = showtimes.get(showtimeChoice - 1);
     
         // Check available seats
-        if (selectedShowtime.getAvailableSeats() <= 0) {
-            System.out.println("No seats available for this showtime.");
-            return;
-        }
     
         // Generate a ticket ID and use the correct customer ID
         String ticketId = "TICKET-" + (DummyData.getTicketsByCustomer(customerId).size() + 1);
         Ticket newTicket = new Ticket(ticketId, this.customerId, selectedShowtime, selectedShowtime.getShownMovie());
     
         // Reduce available seats and save the ticket
-        selectedShowtime.reduceAvailableSeats(1);
         DummyData.addTicket(this.customerId, newTicket);
 
         Payment payment = Payment.processPayment(customerId, 10.70);

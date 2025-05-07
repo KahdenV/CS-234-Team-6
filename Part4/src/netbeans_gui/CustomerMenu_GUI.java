@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+
+import model.Customer;
 import model.Movie;
 import io.MovieIO;
 import io.ShowtimeIO;
@@ -20,7 +22,10 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     /**
      * Creates new form CustomerMenu_GUI
      */
-    public CustomerMenu_GUI() {
+    private Customer currentUser;
+
+    public CustomerMenu_GUI(Customer currentUser) {
+        this.currentUser = currentUser;
         initComponents();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setPreferredSize(null); // Let it grow dynamically
@@ -123,8 +128,8 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_MovieShowtime_ButtonActionPerformed
 
     private void PurchaseTicket_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseTicket_ButtonActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "TODO");
+        new PurchaseTicket_GUI(currentUser).setVisible(true);
+
     }//GEN-LAST:event_PurchaseTicket_ButtonActionPerformed
   
     private void loadMovies() {
@@ -182,11 +187,6 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new CustomerMenu_GUI().setVisible(true));
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Concession_Button;

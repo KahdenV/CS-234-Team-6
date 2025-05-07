@@ -1,10 +1,8 @@
 package model;
 
-
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 
 /**
  * Represents a scheduled movie showtime within a specific screen.
@@ -15,34 +13,29 @@ public class Showtime {
     protected Movie shownMovie;
     protected Screen showingScreen;
     protected String time;
-    private static List<Showtime> showtimeList = new ArrayList<>(); // Static list to store all showtimes
-    private int availableSeats;
+    private static List<Showtime> showtimeList = new ArrayList<>();
+    private List<String> availableSeats; // Now stores actual seat IDs
 
     /**
-     * Constructs a new showtime and registers it in the showtime list.
+     * Constructs a new showtime with seats.
      *
-     * @param shownMovie     The movie being shown.
-     * @param showingScreen  The screen where the movie is shown.
-     * @param time           The time of the show.
+     * @param shownMovie    The movie being shown.
+     * @param showingScreen The screen where the movie is shown.
+     * @param time          The time of the show.
+     * @param seats         List of available seat IDs.
      */
-    public Showtime(Movie shownMovie, Screen showingScreen, String time) {
+    public Showtime(Movie shownMovie, Screen showingScreen, String time, List<String> seats) {
         this.shownMovie = shownMovie;
         this.showingScreen = showingScreen;
         this.time = time;
-        showtimeList.add(this); // Add the new showtime to the list
-        this.availableSeats = showingScreen.getCapacity(); // Set available seats to screen capacity
+        this.availableSeats = new ArrayList<>(seats);
+        showtimeList.add(this);
     }
 
-    /**
-     * Returns a list of all showtimes.
-     *
-     * @return A copy of the global showtime list.
-     */
     public static List<Showtime> getShowtimeList() {
-        return new ArrayList<>(showtimeList); // Return a copy to preserve encapsulation
+        return new ArrayList<>(showtimeList);
     }
 
-    // Getter and Setter methods
     public Movie getShownMovie() {
         return shownMovie;
     }
@@ -53,12 +46,6 @@ public class Showtime {
 
     public String getTime() {
         return time;
-    }
-
-
-    public void setShowtimeID()
-    {
-
     }
 
     public void setShownMovie(Movie newShownMovie) {
@@ -73,42 +60,34 @@ public class Showtime {
         time = newTime;
     }
 
-    public int getAvailableSeats() {
-        return availableSeats;
+    public List<String> getAvailableSeats() {
+        return new ArrayList<>(availableSeats);
     }
 
-     /**
-     * Decreases the number of available seats by the given quantity.
-     *
-     * @param numberOfSeats Number of seats to reduce.
-     */
-    public void reduceAvailableSeats(int numberOfSeats) {
-        if (availableSeats >= numberOfSeats) {
-            availableSeats -= numberOfSeats;
-        } else {
-            System.out.println("Not enough seats available.");
-        }
+    public int getAvailableSeatCount() {
+        return availableSeats.size();
     }
 
     /**
-     * Prints a summary of this showtime's details.
+     * Decreases the number of available seats by removing one seat.
      */
+    public void decreaseAvailableSeats() {
+        if (!availableSeats.isEmpty()) {
+            availableSeats.remove(0); // Removes first available seat
+        }
+    }
+
     public void printShowtimeDetails() {
         System.out.println("Movie being shown: " + shownMovie.getMovieTitle());
         System.out.println("Screen number: " + showingScreen.getScreenNumber());
         System.out.println("Time: " + time);
     }
 
-    /**
-     * Returns a string representation of this showtime.
-     *
-     * @return Summary string with movie title, time, screen, and seats.
-     */
     @Override
     public String toString() {
         return "Movie: " + shownMovie.getMovieTitle() +
-            ", Time: " + time +
-            ", Screen: " + showingScreen.getScreenNumber() +
-            ", Available Seats: " + availableSeats;
+               ", Time: " + time +
+               ", Screen: " + showingScreen.getScreenNumber() +
+               ", Available Seats: " + availableSeats.size();
     }
 }

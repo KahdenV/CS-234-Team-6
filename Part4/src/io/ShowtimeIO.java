@@ -20,39 +20,64 @@ import java.util.*;
 public class ShowtimeIO {
     public static List<Showtime> loadShowtimes(String filename, List<Movie> movies, List<Screen> screens) {
         List<Showtime> showtimes = new ArrayList<>();
+    
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";"); // movieID;theaterID;timeRange
-                if (parts.length == 3) {
+                String[] parts = line.split(";", 4); // ensure you grab seats too
+                if (parts.length >= 3) {
                     String movieID = parts[0];
                     String screenID = parts[1];
-                    String timeRange = parts[2];
-
-                    Movie movie = movies.stream().filter(m -> m.getMovieID().equals(movieID)).findFirst().orElse(null);
-                    Screen screen = screens.stream().filter(s -> s.getScreenNumber().equals(screenID)).findFirst().orElse(null);
-
-                    if (movie != null && screen != null) {
-                        showtimes.add(new Showtime(movie, screen, timeRange));
+                    String time = parts[2];
+                    List<String> seats = new ArrayList<>();
+    
+                    if (parts.length == 4 && !parts[3].isBlank()) {
+                        seats = Arrays.asList(parts[3].trim().split(" "));
+                    }
+    
+                    Movie movie = movies.stream()
+                            .filter(m -> m.getMovieID().equals(movieID))
+                            .findFirst()
+                            .orElse(null);
+    
+                    Screen screen = screens.stream()
+                            .filter(s -> s.getScreenNumber().equals(screenID))
+                            .findFirst()
+                            .orElseGet(() -> {
+                                Screen newScreen = new Screen(screenID);
+                                screens.add(newScreen);
+                                return newScreen;
+                            });
+    
+                    if (movie != null) {
+                        showtimes.add(new Showtime(movie, screen, time, new ArrayList<>(seats)));
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    
         return showtimes;
     }
+    
 
+    
     public static void saveShowtimes(String filename, List<Showtime> showtimes) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Showtime s : showtimes) {
-                writer.write(s.getShownMovie().getMovieID() + ";" + s.getShowingScreen().getScreenNumber() + ";" + s.getTime());
+                String seatList = String.join(" ", s.getAvailableSeats());
+                writer.write(s.getShownMovie().getMovieID() + ";" + 
+                             s.getShowingScreen().getScreenNumber() + ";" + 
+                             s.getTime() + ";" + seatList);
                 writer.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    
 
     public static Map<String, List<String>> getShowtimesByMovie(String filename) {
         Map<String, List<String>> map = new HashMap<>();

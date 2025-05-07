@@ -437,8 +437,9 @@ public class StaffMenu {
         screens.get(screenChoice - 1).assignShowTime(showtimeTime);
     
         // Create and save the new showtime
-        Showtime newShowtime = new Showtime(selectedMovie, selectedScreen, showtimeTime);
-        showtimes.add(newShowtime); // Add to centralized list
+        Showtime newShowtime = new Showtime(selectedMovie, selectedScreen, showtimeTime, List.of("A0"));
+        showtimes.add(newShowtime);
+
     
         System.out.println("Showtime '" + showtimeTime + "' assigned to screen '" + selectedScreen.getScreenNumber() + "' for movie '" + selectedMovie.getMovieTitle() + "'.");
     }

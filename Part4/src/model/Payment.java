@@ -2,6 +2,9 @@ package model;
 
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date; // For the Date class
 import java.util.Map; // For the Map interface
 import java.util.HashMap; // For the HashMap implementation
@@ -52,15 +55,25 @@ public class Payment {
      * @return A newly created Payment object.
      */
     public static Payment processPayment(String customerId, double amount) {
-        String paymentId = generatePaymentId(); // Generate a unique ID
-        Date paymentDate = new Date(); // Current date
+        String paymentId = generatePaymentId();
+        Date paymentDate = new Date();
         String status = "Completed";
 
         Payment payment = new Payment(paymentId, customerId, amount, paymentDate, status);
-        paymentRecords.put(paymentId, payment); // Save the payment
-        System.out.println("Payment processed successfully: " + paymentId);
+        paymentRecords.put(paymentId, payment);
+
+        // Append to purchases.txt
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/purchases.txt", true))) {
+            writer.write(customerId + "," + "Ticket" + "," + amount + "," + paymentId);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error writing to purchases.txt: " + e.getMessage());
+        }
+
+        System.out.println("Payment processed and saved: " + paymentId);
         return payment;
     }
+
 
     /**
      * Marks a payment as refunded.

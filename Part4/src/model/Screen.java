@@ -72,6 +72,13 @@ public class Screen {
         this.availableSeats = availableSeats;
     }
 
+    public Screen(String screenNumber) {
+        this.screenNumber = screenNumber;
+        this.capacity = 16; // Default capacity
+        this.availableSeats = this.capacity;
+    }
+    
+
      /**
      * Updates the number of available seats, if within valid bounds.
      *
