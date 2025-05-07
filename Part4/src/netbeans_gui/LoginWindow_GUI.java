@@ -160,10 +160,16 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 return;
             }
 
-            String record = nextID + ";" + username + ";" + email + ";" + password + "\n";
+            String record = nextID + "," + username + "," + email + "," + password + "\n";
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/customers.txt", true))) {
                 writer.write(record);
+                writer.newLine(); 
+                writer.flush(); 
+
+                Customer newCustomer = new Customer(nextID, username, email, password);
+                authService.addCustomer(newCustomer);
+
                 JOptionPane.showMessageDialog(frame, "Account Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 frame.dispose();
             } catch (IOException ex) {
@@ -194,7 +200,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
         try (BufferedReader reader = new BufferedReader(new FileReader("data/customers.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
+                String[] parts = line.split(",");
                 if (parts.length > 0 && parts[0].startsWith("C")) {
                     String numericPart = parts[0].substring(1); // e.g., from C003 → 003
                     int currentID = Integer.parseInt(numericPart);
@@ -207,42 +213,6 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         return "C" + String.format("%03d", maxID + 1);
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginWindow_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginWindow_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginWindow_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginWindow_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginWindow_GUI().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,10 +1,19 @@
 package netbeans_gui;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.io.*;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 import model.Movie;
 import io.MovieIO;
+import io.ShowtimeIO;
 
 public class CustomerMenu_GUI extends javax.swing.JFrame {
 
@@ -36,6 +45,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         PurchaseTicket_Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1120, 630));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -49,7 +59,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
                 Logout_buttonActionPerformed(evt);
             }
         });
-        getContentPane().add(Logout_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, -1, -1));
+        getContentPane().add(Logout_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, -1, -1));
 
         Concession_Button.setText("Concessions");
         Concession_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -67,16 +77,16 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 788, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 448, Short.MAX_VALUE)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
 
         scrollPane.setViewportView(contentPanel);
 
-        getContentPane().add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 470, 450));
+        getContentPane().add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 790, 630));
 
         MovieShowtime_Button.setText("Movies & Showtimes");
         MovieShowtime_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -117,54 +127,64 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "TODO");
     }//GEN-LAST:event_PurchaseTicket_ButtonActionPerformed
   
-        private void loadMovies() {
+    private void loadMovies() {
         contentPanel.removeAll();
         List<Movie> movies = MovieIO.loadMovies("data/movies.txt");
+        Map<String, List<String>> showtimesMap = ShowtimeIO.getShowtimesByMovie("data/showtimes.txt");
 
         for (Movie movie : movies) {
             JPanel moviePanel = new JPanel();
             moviePanel.setLayout(new BorderLayout());
             moviePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             moviePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 280));
-            moviePanel.setPreferredSize(new Dimension(450, 280));
+            moviePanel.setPreferredSize(new Dimension(700, 280));
 
             JPanel left = new JPanel();
             left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-            left.setPreferredSize(new Dimension(150, 200));
-            left.add(new JLabel("<html>ID: " + movie.getMovieID() + "</html>"));
-            left.add(new JLabel("<html>Title: " + movie.getMovieTitle() + "</html>"));
-            left.add(new JLabel("<html>Genres: " + movie.getMovieGenres() + "</html>"));
-            left.add(new JLabel("<html>Run Time: " + movie.getMovieRuntime() + " minutes</html>"));
-            left.add(new JLabel("<html>" + movie.getMovieRating() + "</html>"));
-            left.add(new JLabel("<html>Released: " + movie.getMovieReleaseDate() + "</html>"));
+            left.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+            left.setPreferredSize(new Dimension(200, 200));
+            left.add(new JLabel("ID: " + movie.getMovieID()));
+            left.add(new JLabel("Title: " + movie.getMovieTitle()));
+            left.add(new JLabel("Genres: " + movie.getMovieGenres()));
+            left.add(new JLabel("Run Time: " + movie.getMovieRuntime() + " minutes"));
+            left.add(new JLabel(movie.getMovieRating()));
+            left.add(new JLabel("Released: " + movie.getMovieReleaseDate()));
 
             JLabel poster = new JLabel();
             ImageIcon icon = new ImageIcon("data/posters/" + movie.getMovieTitle() + ".jpg");
             Image img = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             poster.setIcon(new ImageIcon(img));
-            poster.setPreferredSize(new Dimension(200, 200));
+            poster.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+            poster.setPreferredSize(new Dimension(100, 200));
 
             JPanel right = new JPanel();
             right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
             right.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-            right.setPreferredSize(new Dimension(120, 200));
+            right.setPreferredSize(new Dimension(250, 200));
             right.add(new JLabel("Showtimes:"));
-            right.add(new JLabel("Theater 1:"));
-            right.add(new JLabel("8:00AM - 10:00AM"));
-            right.add(new JLabel("2:00PM - 4:00PM"));
-            right.add(new JLabel("Theater 2:"));
-            right.add(new JLabel("6:00PM - 8:00PM"));
+            List<String> times = showtimesMap.get(movie.getMovieID());
+            if (times != null) {
+                for (String time : times) {
+                    right.add(new JLabel(time));
+                }
+            } else {
+                right.add(new JLabel("No showtimes available."));
+            }
 
             moviePanel.add(left, BorderLayout.WEST);
             moviePanel.add(poster, BorderLayout.CENTER);
             moviePanel.add(right, BorderLayout.EAST);
 
+            contentPanel.add(Box.createVerticalStrut(10));
             contentPanel.add(moviePanel);
         }
 
         contentPanel.revalidate();
         contentPanel.repaint();
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    }
+
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new CustomerMenu_GUI().setVisible(true));
     }
 
 
