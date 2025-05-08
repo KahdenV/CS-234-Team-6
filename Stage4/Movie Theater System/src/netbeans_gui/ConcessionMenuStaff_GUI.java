@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 
-public class ConcessionStandGUI extends JFrame {
+public class ConcessionMenuStaff_GUI extends JFrame {
     private JComboBox<String> itemDropdown;
     private JSpinner quantitySpinner;
     private JLabel totalLabel;
 
-    public ConcessionStandGUI() {
+    public ConcessionMenuStaff_GUI() {
         setTitle("Concession Stand");
         setSize(660, 410);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,6 +92,6 @@ public class ConcessionStandGUI extends JFrame {
         Concession.addItem("drink", "Drink", 3.00);
         Concession.addItem("candy", "Candy", 2.50);
 
-        new ConcessionStandGUI();
+        new ConcessionMenuStaff_GUI();
     }
 }
