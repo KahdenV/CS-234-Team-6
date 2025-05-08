@@ -15,6 +15,8 @@ public class Movie {
     protected String movieRating;
     protected String movieReleaseDate;
     protected Scanner movieScanner;
+    protected double moviePrice;
+
 
      /**
      * Default constructor initializing a Scanner.
@@ -92,6 +94,15 @@ public class Movie {
     public void setMovieID(String id) {
         this.movieID = id;
     }
+
+    public double getMoviePrice() {
+        return moviePrice;
+    }
+    
+    public void setMoviePrice(double price) {
+        this.moviePrice = price;
+    }
+    
     
     public void generateMovieID(int lastID) {
         int newID = lastID + 1;

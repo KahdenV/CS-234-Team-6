@@ -81,22 +81,26 @@ public class ShowtimeIO {
 
     public static Map<String, List<String>> getShowtimesByMovie(String filename) {
         Map<String, List<String>> map = new HashMap<>();
+    
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length == 3) {
+                String[] parts = line.split(";", 4); // allow seat field to contain semicolons or be ignored
+                if (parts.length >= 3) {
                     String movieID = parts[0];
-                    String theaterID = parts[1];
+                    String screenNumber = parts[1];
                     String time = parts[2];
-                    String entry = "Theater " + theaterID + ": " + time;
-
-                    map.computeIfAbsent(movieID, k -> new ArrayList<>()).add(entry);
+                    String label = time + " (Screen " + screenNumber + ")";
+                    
+                    map.putIfAbsent(movieID, new ArrayList<>());
+                    map.get(movieID).add(label);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    
         return map;
     }
+    
 }

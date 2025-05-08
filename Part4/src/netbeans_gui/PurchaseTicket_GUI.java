@@ -33,6 +33,8 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
     private List<Showtime> showtimes;
     private Showtime selectedShowtime;
 
+    public double price;
+
     public PurchaseTicket_GUI(Customer currentUser) {
         this.currentUser = currentUser;
         initComponents();
@@ -60,10 +62,16 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -85,25 +93,32 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel5.setText("Price: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jLabel5)))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -123,6 +138,8 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -132,6 +149,10 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         String selectedSeat = (String) jComboBox3.getSelectedItem();
         if (selectedSeat == null) {
@@ -139,20 +160,22 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
             return;
         }
 
-        double price = 12.50;
+        jLabel5.setText("Price: $" + String.format("%.2f", price));
         Payment payment = Payment.processPayment(currentUser.getCustomerId(), price);
 
         selectedShowtime.getAvailableSeats().remove(selectedSeat);
         ShowtimeIO.saveShowtimes("data/showtimes.txt", showtimes);
 
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/purchases.txt", true))) {
-            writer.write(currentUser.getEmail() + ",Ticket," + price + "," + payment.getPaymentId());
+            writer.write(currentUser.getCustomerId() + ",Ticket," + price + "," + payment.getPaymentId());
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         JOptionPane.showMessageDialog(this, "Ticket purchased successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        updateSeats();
     }
 
     private void loadMovies() {
@@ -185,7 +208,7 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
 
     private void updateSeats() {
         jComboBox3.removeAllItems();
-        jButton1.setEnabled(false);  // Disable purchase button by default
+        jButton1.setEnabled(false);
     
         String selectedMovie = (String) jComboBox1.getSelectedItem();
         String selectedTime = (String) jComboBox2.getSelectedItem();
@@ -204,15 +227,19 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
                     for (String seat : seats) {
                         jComboBox3.addItem(seat);
                     }
-                    jButton1.setEnabled(true);  // Enable button if seats exist
+                    jButton1.setEnabled(true);
                 } else {
                     jComboBox3.addItem("No seats available");
                 }
+    
+                price = selectedShowtime.getShownMovie().getMoviePrice();
+                jLabel5.setText("Price: $" + String.format("%.2f", price));
     
                 break;
             }
         }
     }
+    
     
     
 
@@ -225,5 +252,6 @@ public class PurchaseTicket_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }

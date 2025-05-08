@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.String;
 
 /**
  * Represents a scheduled movie showtime within a specific screen.
@@ -61,8 +62,9 @@ public class Showtime {
     }
 
     public List<String> getAvailableSeats() {
-        return new ArrayList<>(availableSeats);
+        return availableSeats;
     }
+    
 
     public int getAvailableSeatCount() {
         return availableSeats.size();

@@ -12,7 +12,7 @@ public class MovieIO {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
-                if (parts.length >= 6) {
+                if (parts.length >= 7) {
                     Movie movie = new Movie();
                     movie.setMovieID(parts[0]);
                     movie.setMovieTitleFromFile(parts[1]);
@@ -20,6 +20,7 @@ public class MovieIO {
                     movie.setMovieRuntimeFromFile(Integer.parseInt(parts[3].trim()));
                     movie.setMovieRatingFromFile(parts[4]);
                     movie.setMovieReleaseDateFromFile(parts[5]);
+                    movie.setMoviePrice(Double.parseDouble(parts[6].trim()));
                     movies.add(movie);
                 } else {
                     System.out.println("⚠️ Skipping malformed line: " + line);
@@ -36,7 +37,8 @@ public class MovieIO {
             for (Movie m : movies) {
                 writer.write(String.join(";",
                     m.getMovieID(), m.getMovieTitle(), m.getMovieGenres(),
-                    String.valueOf(m.getMovieRuntime()), m.getMovieRating(), m.getMovieReleaseDate()));
+                    String.valueOf(m.getMovieRuntime()), m.getMovieRating(),
+                    m.getMovieReleaseDate(), String.valueOf(m.getMoviePrice())));
                 writer.newLine();
             }
         } catch (IOException e) {

@@ -118,12 +118,14 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_Concession_ButtonActionPerformed
 
     private void Logout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_buttonActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "TODO");
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Confirm Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Close the current CustomerMenu_GUI
+            new LoginWindow_GUI().setVisible(true); // Open LoginWindow_GUI
+        }
     }//GEN-LAST:event_Logout_buttonActionPerformed
 
     private void MovieShowtime_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MovieShowtime_ButtonActionPerformed
-        // TODO add your handling code here:
         loadMovies();
     }//GEN-LAST:event_MovieShowtime_ButtonActionPerformed
 
@@ -154,6 +156,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
             left.add(new JLabel("Run Time: " + movie.getMovieRuntime() + " minutes"));
             left.add(new JLabel(movie.getMovieRating()));
             left.add(new JLabel("Released: " + movie.getMovieReleaseDate()));
+            left.add(new JLabel("Price: $" + String.format("%.2f", movie.getMoviePrice())));
 
             JLabel poster = new JLabel();
             ImageIcon icon = new ImageIcon("data/posters/" + movie.getMovieTitle() + ".jpg");

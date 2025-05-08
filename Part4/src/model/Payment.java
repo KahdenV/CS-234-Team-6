@@ -63,12 +63,6 @@ public class Payment {
         paymentRecords.put(paymentId, payment);
 
         // Append to purchases.txt
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/purchases.txt", true))) {
-            writer.write(customerId + "," + "Ticket" + "," + amount + "," + paymentId);
-            writer.newLine();
-        } catch (IOException e) {
-            System.err.println("Error writing to purchases.txt: " + e.getMessage());
-        }
 
         System.out.println("Payment processed and saved: " + paymentId);
         return payment;
