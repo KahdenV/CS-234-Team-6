@@ -5,3 +5,26 @@
 005;The Matrix;Action, Sci-Fi;136;R;3/31/1999;4.99
 006;Toy Story;Animation, Family;81;G;11/22/1995;6.99
 007;Parasite;Drama, Thriller;132;R;5/30/2019;5.99
+008;Forrest Gump;Drama, Romance;142;PG-13;7/6/1994;4.99
+009;The Lion King;Animation, Adventure;88;G;6/24/1994;5.99
+010;Avengers Endgame;Action, Sci-Fi;181;PG-13;4/26/2019;9.99
+011;Gladiator;Action, Drama;155;R;5/5/2000;4.99
+012;Titanic;Drama, Romance;195;PG-13;12/19/1997;6.99
+013;Coco;Animation, Family;105;PG;11/22/2017;5.99
+014;Jurassic Park;Adventure, Sci-Fi;127;PG-13;6/11/1993;4.99
+015;The Shawshank Redemption;Drama;142;R;9/22/1994;3.99
+016;The Godfather;Crime, Drama;175;R;3/24/1972;4.99
+017;The Social Network;Drama, Biography;120;PG-13;10/1/2010;5.99
+018;Spider-Man Into the Spider-Verse;Animation, Action;117;PG;12/14/2018;6.99
+019;The Grand Budapest Hotel;Comedy, Drama;99;R;3/28/2014;4.99
+020;La La Land;Drama, Music;128;PG-13;12/9/2016;5.99
+021;Get Out;Horror, Thriller;104;R;2/24/2017;4.99
+022;Whiplash;Drama, Music;106;R;10/10/2014;3.99
+023;Up;Animation, Adventure;96;PG;5/29/2009;5.99
+024;WALL-E;Animation, Sci-Fi;98;G;6/27/2008;5.99
+025;The Avengers;Action, Sci-Fi;143;PG-13;5/4/2012;6.99
+026;Black Panther;Action, Drama;134;PG-13;2/16/2018;6.99
+027;The Incredibles;Animation, Action;115;PG;11/5/2004;4.99
+028;Inside Out;Animation, Comedy;95;PG;6/19/2015;5.99
+029;Knives Out;Comedy, Crime;130;PG-13;11/27/2019;5.99
+030;Oppenheimer;Biography, Drama;180;R;7/21/2023;8.99
