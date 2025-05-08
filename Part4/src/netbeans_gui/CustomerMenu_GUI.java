@@ -27,6 +27,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     public CustomerMenu_GUI(Customer currentUser) {
         this.currentUser = currentUser;
         initComponents();
+        jLabel1.setText("Welcome: " + currentUser.getName());
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setPreferredSize(null); // Let it grow dynamically
 
@@ -48,6 +49,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         contentPanel = new javax.swing.JPanel();
         MovieShowtime_Button = new javax.swing.JButton();
         PurchaseTicket_Button = new javax.swing.JButton();
+        Purchases_Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1120, 630));
@@ -109,6 +111,14 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         });
         getContentPane().add(PurchaseTicket_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 290, 60));
 
+        Purchases_Button.setText("Purchases");
+        Purchases_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Purchases_ButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Purchases_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 290, 60));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -133,6 +143,15 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         new PurchaseTicket_GUI(currentUser).setVisible(true);
 
     }//GEN-LAST:event_PurchaseTicket_ButtonActionPerformed
+
+    private void Purchases_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Purchases_ButtonActionPerformed
+        JFrame frame = new JFrame("Your Purchases");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(new Purchases_GUI(currentUser));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }//GEN-LAST:event_Purchases_ButtonActionPerformed
   
     private void loadMovies() {
         contentPanel.removeAll();
@@ -196,6 +215,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JButton Logout_button;
     private javax.swing.JButton MovieShowtime_Button;
     private javax.swing.JButton PurchaseTicket_Button;
+    private javax.swing.JButton Purchases_Button;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane scrollPane;

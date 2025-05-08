@@ -16,12 +16,14 @@ public class Customer extends Person {
      * @param password The customer's password.
      */
     public Customer(String id, String name, String email, String password) {
-        super(id); // Calls Person constructor
-        this.id = id;                
-        this.setName(name);        
+        super(id);           // only sets the ID
+        this.id = id;
+        this.setName(name);  // must still call this!
         this.email = email;
         this.password = password;
     }
+    
+    
 
 
     /**
