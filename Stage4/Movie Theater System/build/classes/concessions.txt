@@ -1,0 +1,6 @@
+P000,Popcorn,5.00
+D001,Soda,3.00
+C002,Candy,2.50
+N003,Nachos,4.50
+H004,Hot Dog,6.00
+I005,Ice Cream,4.00
