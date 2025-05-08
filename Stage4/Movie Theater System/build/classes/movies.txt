@@ -1,0 +1,7 @@
+001;Inception;Action, Sci-Fi;148;PG-13;7/16/2010;7.99
+002;The Dark Knight;Action, Crime;152;PG-13;7/18/2008;8.99
+003;Interstellar;Sci-Fi, Adventure;169;PG-13;11/7/2014;5.99
+004;Pulp Fiction;Crime, Drama;154;R;10/14/1994;3.99
+005;The Matrix;Action, Sci-Fi;136;R;3/31/1999;4.99
+006;Toy Story;Animation, Family;81;G;11/22/1995;6.99
+007;Parasite;Drama, Thriller;132;R;5/30/2019;5.99
