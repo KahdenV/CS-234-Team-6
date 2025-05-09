@@ -35,7 +35,7 @@ public class ConcessionMenuC extends javax.swing.JFrame {
         this.currentUser = currentUser;
         setTitle("Concession Stand - Customer View");
         setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLayout(null);
 
         // Title Label
