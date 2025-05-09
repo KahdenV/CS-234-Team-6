@@ -32,6 +32,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
 
     private MovieTheaterSystem system;
     private AuthenticationService authService;
+
     /**
      * Creates new form LoginWindow_GUI7
      */
@@ -64,7 +65,6 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
         setTitle("Login Window");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(660, 410));
-        setPreferredSize(new java.awt.Dimension(640, 360));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Login_Label.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -99,7 +99,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 140, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 140, 30));
 
         jButton2.setText("Skip");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -132,9 +132,9 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = UserInput_TextField.getText();
         String password = new String(PasswordInput_PasswordField.getPassword());
-        
+
         Person person = authService.authenticate(username, password);
-        
+
         if (person != null) {
             JOptionPane.showMessageDialog(this, "Login succesful! Welcome, " + person.getName());
             this.dispose();
@@ -142,18 +142,18 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                 Customer customer = (Customer) person;
                 java.awt.EventQueue.invokeLater(() -> {
                     new CustomerMenu_GUI(customer).setVisible(true);
-            });
+                });
             } else if (person instanceof Staff) {
                 Staff staff = (Staff) person;
                 java.awt.EventQueue.invokeLater(() -> {
                     new StaffMenu_GUI(staff).setVisible(true);
-                }
+                });
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
-            
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
-     
+
     }//GEN-LAST:event_Login_ButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -170,7 +170,7 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
             String username = usernameField.getText();
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
-            
+
             String nextID = getNextCustomerID();
             if (nextID == null) {
                 JOptionPane.showMessageDialog(frame, "Failed to generate ID.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -181,8 +181,8 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/customers.txt", true))) {
                 writer.write(record);
-                writer.newLine(); 
-                writer.flush(); 
+                writer.newLine();
+                writer.flush();
 
                 Customer newCustomer = new Customer(nextID, username, email, password);
                 authService.addCustomer(newCustomer);
