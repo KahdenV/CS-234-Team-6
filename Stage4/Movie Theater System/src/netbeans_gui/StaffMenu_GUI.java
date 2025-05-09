@@ -169,7 +169,6 @@ public class StaffMenu_GUI extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        new ConcessionMenuStaff_GUI(currentUser).setVisible(true); // Updated 
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

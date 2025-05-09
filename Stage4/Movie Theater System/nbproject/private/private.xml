@@ -3,18 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/io/ConcessionIO.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/model/Concession.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/data/concessions.txt</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/data/customers.txt</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/data/movies.txt</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/data/showtimes.txt</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/io/CustomerIO.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/io/IOTester.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/Main.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/PurchaseTicket_GUI.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/Purchases_GUI.java</file>
-            <file>file:/C:/Users/kahde/Documents/GitHub/CS-234-Team-6/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/NewJFrame.java</file>
+            <file>file:/C:/Users/Lithi/OneDrive/Documents/GitHub/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/Staff_MovieMenu_GUI.java</file>
+            <file>file:/C:/Users/Lithi/OneDrive/Documents/GitHub/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/CustomerMenu_GUI.java</file>
+            <file>file:/C:/Users/Lithi/OneDrive/Documents/GitHub/CS-234-Team-6/Stage4/Movie%20Theater%20System/src/netbeans_gui/LoginWindow_GUI.java</file>
         </group>
     </open-files>
 </project-private>

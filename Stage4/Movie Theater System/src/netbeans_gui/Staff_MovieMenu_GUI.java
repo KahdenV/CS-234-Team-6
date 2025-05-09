@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JComboBox;
 
 public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
 
@@ -33,6 +34,7 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
      * Creates new form Staff_MovieMenu_GUI
      */
     
+    private String [] listMovieTitles;
     private List<Movie> movies;
 
     public Staff_MovieMenu_GUI() {
@@ -41,6 +43,13 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setPreferredSize(null); // Let it grow dynamically
         loadMovies();
+       
+        listMovieTitles = new String [movies.size()];
+        int counter = 0;
+        for (Movie movie : movies)
+        {
+            listMovieTitles[counter] = movies.get(counter).getMovieTitle();
+        }
     }
     
     private void loadMovies()
@@ -132,10 +141,11 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         SUBMIT = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1120, 630));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -159,7 +169,7 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 643, Short.MAX_VALUE)
+            .addGap(0, 649, Short.MAX_VALUE)
         );
 
         AllMovies_Scroll.setViewportView(contentPanel);
@@ -293,20 +303,39 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
                     .addComponent(YearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(SUBMIT, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Add a Movie", AddMovie_Panel);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Edit a Movie");
+
+        jLabel10.setText("Select Movie");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1126, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(434, 434, 434)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(jLabel10)))
+                .addContainerGap(472, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel10)
+                .addContainerGap(528, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Edit a Movie", jPanel1);
@@ -319,7 +348,7 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Delete a Movie", jPanel2);
@@ -339,6 +368,8 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         Movie newMovie = new Movie(movieTitle, movieGenres, movieRuntime, movieRating, movieReleaseDate);
         newMovie.setMovieID(movies.get(movies.size()-1).getMovieID());
         movies.add(newMovie);
+        MovieIO.saveMovies("movies", movies);
+        loadMovies();
         JOptionPane.showMessageDialog(this, "Movie added successfully");
     }//GEN-LAST:event_SUBMITActionPerformed
 
@@ -407,6 +438,7 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JSpinner YearField;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -414,6 +446,7 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
