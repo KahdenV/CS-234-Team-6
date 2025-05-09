@@ -1,0 +1,6 @@
+C002,Candy,2.5
+N003,Nachos,4.5
+D001,Soda,3.0
+004,Snickers,5.41
+P000,Popcorn,5.0
+H004,Hot Dog,6.0
