@@ -57,12 +57,8 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         setSize(new java.awt.Dimension(400, 400));
 
         jButton1.setText("Concessions");
-        jButton1.setName("ConcessionsMenu_Button"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.setName("ConcessionsMenu_Button"); 
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setText("Customers");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -172,9 +168,9 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new Staff_ConcessionsMenu_GUI().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        new ConcessionMenuStaff_GUI(currentUser).setVisible(true); // Updated 
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new Staff_CustomerMenu_GUI().setVisible(true);
