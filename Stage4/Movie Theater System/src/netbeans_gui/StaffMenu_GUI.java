@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import model.Staff;
 
 public class StaffMenu_GUI extends javax.swing.JFrame
@@ -47,9 +48,9 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Staff Menu");
@@ -57,8 +58,12 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         setSize(new java.awt.Dimension(400, 400));
 
         jButton1.setText("Concessions");
-        jButton1.setName("ConcessionsMenu_Button"); 
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        jButton1.setName("ConcessionsMenu_Button"); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Customers");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -88,13 +93,6 @@ public class StaffMenu_GUI extends javax.swing.JFrame
             }
         });
 
-        jButton6.setText("Showtimes");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
         jButton7.setText("Staff");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,15 +104,19 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Welcome Staff Member!");
 
+        jButton6.setText("Logout");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -128,7 +130,10 @@ public class StaffMenu_GUI extends javax.swing.JFrame
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))))
+                                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(jButton6)))
                 .addGap(0, 78, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -146,11 +151,11 @@ public class StaffMenu_GUI extends javax.swing.JFrame
                     .addComponent(jButton4))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton5))
-                .addGap(18, 18, 18)
-                .addComponent(jButton7)
-                .addContainerGap(171, Short.MAX_VALUE))
+                    .addComponent(jButton5)
+                    .addComponent(jButton7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -169,7 +174,7 @@ public class StaffMenu_GUI extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        new ConcessionMenuStaff_GUI(currentUser).setVisible(true); // Updated 
+        new ConcessionMenuS_GUI().setVisible(true); // Updated 
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -184,10 +189,6 @@ public class StaffMenu_GUI extends javax.swing.JFrame
         new Staff_PaymentMenu_GUI().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        new Staff_ShowtimesMenu_GUI().setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         new Staff_ScreensMenu_GUI().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -195,6 +196,14 @@ public class StaffMenu_GUI extends javax.swing.JFrame
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         new Staff_StaffMenu_GUI().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Confirm Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Close the current CustomerMenu_GUI
+            new LoginWindow_GUI().setVisible(true); // Open LoginWindow_GUI
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -4,18 +4,32 @@ package netbeans_gui;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+ import javax.swing.*;
+ import java.awt.BorderLayout; 
+ import java.io.*;
+ import java.util.ArrayList;
+ import java.util.List;
+
 /**
  *
  * @author Lithi
  */
 public class Staff_PaymentMenu_GUI extends javax.swing.JFrame {
 
+    private DefaultListModel<String> purchaseModel = new DefaultListModel<>();
+    private JList<String> purchaseList = new JList<>(purchaseModel);
+    private JLabel totalLabel = new JLabel("Total: $0.00");
+
+    
     /**
      * Creates new form Staff_PaymentMenu_GUI
      */
     public Staff_PaymentMenu_GUI() {
         initComponents();
+        buildPaymentUI(); // Set up the interface
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,40 +56,83 @@ public class Staff_PaymentMenu_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void buildPaymentUI() {
+        setTitle("Payment Report & Refunds");
+        setLayout(new BorderLayout());
+
+        loadPurchases();
+
+        JScrollPane scrollPane = new JScrollPane(purchaseList);
+        JButton deleteButton = new JButton("Delete Selected (Refund)");
+        deleteButton.addActionListener(e -> deleteSelectedPurchase());
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(totalLabel, BorderLayout.WEST);
+        bottomPanel.add(deleteButton, BorderLayout.EAST);
+
+        add(new JLabel("All Purchases:"), BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+        private void loadPurchases() {
+        purchaseModel.clear();
+        double total = 0.0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/purchases.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                purchaseModel.addElement(line);
+                String[] parts = line.split(",");
+                if (parts.length >= 3) {
+                    total += Double.parseDouble(parts[2]);
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Staff_PaymentMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Staff_PaymentMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Staff_PaymentMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Staff_PaymentMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IOException | NumberFormatException ex) {
+            ex.printStackTrace();
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Staff_PaymentMenu_GUI().setVisible(true);
-            }
-        });
+        totalLabel.setText(String.format("Total: $%.2f", total));
     }
+
+    private void deleteSelectedPurchase() {
+        int index = purchaseList.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a purchase to delete.");
+            return;
+        }
+
+        String toRemove = purchaseModel.getElementAt(index);
+        int confirm = JOptionPane.showConfirmDialog(this, "Refund this purchase?\n" + toRemove, "Confirm", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        List<String> remaining = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/purchases.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.equals(toRemove)) {
+                    remaining.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/purchases.txt"))) {
+            for (String line : remaining) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        loadPurchases();
+        JOptionPane.showMessageDialog(this, "Purchase removed and refunded.");
+    }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

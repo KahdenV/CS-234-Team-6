@@ -3,7 +3,12 @@ package netbeans_gui;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+import java.util.List;
 /**
  *
  * @author Lithi
@@ -13,9 +18,18 @@ public class Staff_StaffMenu_GUI extends javax.swing.JFrame {
     /**
      * Creates new form Staff_StaffMenu_GUI
      */
+    private DefaultListModel<String> staffListModel;
+    private JList<String> staffList;
+
     public Staff_StaffMenu_GUI() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setupListPanel();
+        setupAddPanel();
+        setupEditPanel();
+        setupRemovePanel();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,40 +114,140 @@ public class Staff_StaffMenu_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void setupListPanel() {
+        JTextArea staffListArea = new JTextArea();
+        staffListArea.setEditable(false);
+        staffListArea.setText(loadStaffText());
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(new JScrollPane(staffListArea), BorderLayout.CENTER);
+    }
+    
+    private String loadStaffText() {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/staff.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Staff_StaffMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Staff_StaffMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Staff_StaffMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Staff_StaffMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            sb.append("Failed to load staff.");
         }
-        //</editor-fold>
+        return sb.toString();
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Staff_StaffMenu_GUI().setVisible(true);
+    private void setupAddPanel() {
+        jPanel2.setLayout(new GridLayout(5, 2));
+        JTextField roleField = new JTextField();
+        JTextField emailField = new JTextField();
+        JTextField passwordField = new JTextField();
+        JButton saveButton = new JButton("Add Staff");
+    
+        saveButton.addActionListener(e -> {
+            String role = roleField.getText();
+            String email = emailField.getText();
+            String password = passwordField.getText();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/staff.txt", true))) {
+                writer.write(role + "," + email + "," + password);
+                writer.newLine();
+                JOptionPane.showMessageDialog(this, "Staff added.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
+    
+        jPanel2.add(new JLabel("Role:"));
+        jPanel2.add(roleField);
+        jPanel2.add(new JLabel("Email:"));
+        jPanel2.add(emailField);
+        jPanel2.add(new JLabel("Password:"));
+        jPanel2.add(passwordField);
+        jPanel2.add(new JLabel());
+        jPanel2.add(saveButton);
     }
+    
+        private void setupEditPanel() {
+        jPanel3.setLayout(new GridLayout(5, 2));
+        JTextField searchEmail = new JTextField();
+        JTextField newRole = new JTextField();
+        JTextField newPassword = new JTextField();
+        JButton editButton = new JButton("Edit Staff");
+
+        editButton.addActionListener(e -> {
+            String email = searchEmail.getText();
+            List<String> updatedLines = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader("data/staff.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts[1].equals(email)) {
+                        updatedLines.add(newRole.getText() + "," + email + "," + newPassword.getText());
+                    } else {
+                        updatedLines.add(line);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/staff.txt"))) {
+                for (String l : updatedLines) {
+                    writer.write(l);
+                    writer.newLine();
+                }
+                JOptionPane.showMessageDialog(this, "Staff updated.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        jPanel3.add(new JLabel("Email to Edit:"));
+        jPanel3.add(searchEmail);
+        jPanel3.add(new JLabel("New Role:"));
+        jPanel3.add(newRole);
+        jPanel3.add(new JLabel("New Password:"));
+        jPanel3.add(newPassword);
+        jPanel3.add(new JLabel());
+        jPanel3.add(editButton);
+    }
+
+    private void setupRemovePanel() {
+        jPanel4.setLayout(new GridLayout(3, 2));
+        JTextField emailField = new JTextField();
+        JButton deleteButton = new JButton("Remove Staff");
+    
+        deleteButton.addActionListener(e -> {
+            String email = emailField.getText();
+            List<String> remaining = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader("data/staff.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.split(",")[1].equals(email)) {
+                        remaining.add(line);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/staff.txt"))) {
+                for (String l : remaining) {
+                    writer.write(l);
+                    writer.newLine();
+                }
+                JOptionPane.showMessageDialog(this, "Staff removed.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    
+        jPanel4.add(new JLabel("Email to Remove:"));
+        jPanel4.add(emailField);
+        jPanel4.add(new JLabel());
+        jPanel4.add(deleteButton);
+    }
+    
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

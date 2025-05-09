@@ -68,12 +68,10 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         });
         getContentPane().add(Logout_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, -1, -1));
 
-               Concession_Button.setText("Concessions");
-        Concession_Button.addActionListener(this::Concession_ButtonActionPerformed); // Updated 
+        Concession_Button.setText("Concessions");
+        Concession_Button.addActionListener(this::Concession_ButtonActionPerformed);
         getContentPane().add(Concession_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 290, 60));
 
-        });
-        getContentPane().add(Concession_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 290, 60));
 
         scrollPane.setMinimumSize(new java.awt.Dimension(400, 360));
 
@@ -123,7 +121,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Concession_ButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        new ConcessionMenuCustomer_GUI(currentUser).setVisible(true); // Opens the Concession GUI
+        new ConcessionMenuC_GUI(currentUser).setVisible(true); // Opens the Concession GUI
     }
 
     private void Logout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_buttonActionPerformed

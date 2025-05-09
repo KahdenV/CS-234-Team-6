@@ -4,17 +4,39 @@ package netbeans_gui;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+ import model.Customer;
+ import io.CustomerIO;
+
+import java.util.ArrayList;
+import java.util.List;
+ import javax.swing.*;
+ import java.awt.*;
+ import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+ 
+
 /**
  *
  * @author Lithi
  */
 public class Staff_CustomerMenu_GUI extends javax.swing.JFrame {
 
+
+    private JPanel customerListPanel;
+    private JScrollPane scrollPane;
+    private List<Customer> customers;
+    private JTextField searchField;
+
     /**
      * Creates new form Staff_CustomerMenu_GUI
      */
     public Staff_CustomerMenu_GUI() {
         initComponents();
+        customers = CustomerIO.loadCustomers("data/customers.txt");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        initCustomerCatalog();
     }
 
     /**
@@ -42,40 +64,64 @@ public class Staff_CustomerMenu_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Staff_CustomerMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Staff_CustomerMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Staff_CustomerMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Staff_CustomerMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Staff_CustomerMenu_GUI().setVisible(true);
-            }
+    private void initCustomerCatalog() {
+        setTitle("Customer Catalog");
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+    
+        // Top panel with search field
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchField = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+    
+        searchButton.addActionListener(e -> {
+            String query = searchField.getText().trim().toLowerCase();
+            refreshCustomerList(query);
         });
+    
+        topPanel.add(new JLabel("Search:"));
+        topPanel.add(searchField);
+        topPanel.add(searchButton);
+        add(topPanel, BorderLayout.NORTH);
+    
+        // Scrollable customer panel
+        customerListPanel = new JPanel();
+        customerListPanel.setLayout(new BoxLayout(customerListPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(customerListPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane, BorderLayout.CENTER);
+    
+        refreshCustomerList(""); 
     }
+    
+    private void refreshCustomerList(String filter) {
+        customerListPanel.removeAll();
+        for (Customer c : customers) {
+            String match = (c.getId() + c.getName() + c.getEmail()).toLowerCase();
+            if (match.contains(filter.toLowerCase())) {
+                JPanel row = new JPanel(new BorderLayout());
+                JLabel label = new JLabel(c.getId() + " | " + c.getName() + " | " + c.getEmail() + " | " + c.getPassword());
+                JButton deleteBtn = new JButton("Delete");
+                deleteBtn.addActionListener(e -> {
+                    int confirm = JOptionPane.showConfirmDialog(this,
+                        "Delete " + c.getName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        customers.remove(c);
+                        CustomerIO.saveCustomers("data/customers.txt", customers);
+                        refreshCustomerList(searchField.getText().trim());
+                    }
+                });
+                row.add(label, BorderLayout.CENTER);
+                row.add(deleteBtn, BorderLayout.EAST);
+                row.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                customerListPanel.add(row);
+            }
+        }
+        customerListPanel.revalidate();
+        customerListPanel.repaint();
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

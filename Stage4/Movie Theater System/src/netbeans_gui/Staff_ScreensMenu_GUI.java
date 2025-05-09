@@ -4,6 +4,19 @@ package netbeans_gui;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+ import javax.swing.*;
+ import java.awt.BorderLayout;
+ import java.awt.Font;
+ import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.GridLayout;
+
+
 /**
  *
  * @author Lithi
@@ -15,7 +28,14 @@ public class Staff_ScreensMenu_GUI extends javax.swing.JFrame {
      */
     public Staff_ScreensMenu_GUI() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setupViewScreensPanel();
+        setupAddScreenPanel();
+        setupEditScreenPanel();
+        setupDeleteScreenPanel();
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,40 +120,183 @@ public class Staff_ScreensMenu_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+
+
+    private void setupViewScreensPanel() {
+        JTextArea screenArea = new JTextArea();
+        screenArea.setEditable(false);
+        screenArea.setFont(new java.awt.Font("Monospaced", Font.PLAIN, 12));
+        JScrollPane scrollPane = new JScrollPane(screenArea);
+
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(scrollPane, BorderLayout.CENTER);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/showtimes.txt"))) {
+            String line;
+            StringBuilder content = new StringBuilder();
+            content.append(String.format("%-10s %-10s %-25s %s%n", "MovieID", "Screen", "Time", "Available Seats"));
+            content.append("--------------------------------------------------------------\n");
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
+                if (parts.length >= 3) {
+                    String movieID = parts[0];
+                    String screen = parts[1];
+                    String time = parts[2];
+                    String seats = (parts.length == 4) ? parts[3] : "(none)";
+                    content.append(String.format("%-10s %-10s %-25s %s%n", movieID, screen, time, seats));
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Staff_ScreensMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Staff_ScreensMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Staff_ScreensMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Staff_ScreensMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            screenArea.setText(content.toString());
+        } catch (IOException e) {
+            screenArea.setText("Failed to load showtimes.");
+            e.printStackTrace();
         }
-        //</editor-fold>
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Staff_ScreensMenu_GUI().setVisible(true);
+    private void setupAddScreenPanel() {
+        jPanel2.setLayout(new GridLayout(5, 2));
+    
+        JTextField movieIDField = new JTextField();
+        JTextField screenField = new JTextField();
+        JTextField timeField = new JTextField();
+        JTextField seatCountField = new JTextField();  // New: number of seats
+        JButton addButton = new JButton("Add Screen");
+    
+        addButton.addActionListener(e -> {
+            String movieID = movieIDField.getText().trim();
+            String screen = screenField.getText().trim();
+            String time = timeField.getText().trim();
+            int seatCount;
+    
+            try {
+                seatCount = Integer.parseInt(seatCountField.getText().trim());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid seat count.");
+                return;
+            }
+    
+            // Generate seat IDs
+            List<String> seats = new ArrayList<>();
+            for (int i = 0; i < seatCount; i++) {
+                char row = (char) ('A' + (i / 10));
+                int col = i % 10;
+                seats.add(row + String.valueOf(col));
+            }
+    
+            String seatString = String.join(" ", seats);
+            String showtimeEntry = movieID + ";" + screen + ";" + time + ";" + seatString;
+    
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/showtimes.txt", true))) {
+                writer.write(showtimeEntry);
+                writer.newLine();
+                JOptionPane.showMessageDialog(this, "Screen added with " + seatCount + " seats.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
+    
+        jPanel2.add(new JLabel("Movie ID:"));
+        jPanel2.add(movieIDField);
+        jPanel2.add(new JLabel("Screen #:"));
+        jPanel2.add(screenField);
+        jPanel2.add(new JLabel("Time:"));
+        jPanel2.add(timeField);
+        jPanel2.add(new JLabel("Number of Seats:"));
+        jPanel2.add(seatCountField);
+        jPanel2.add(new JLabel());
+        jPanel2.add(addButton);
     }
+    
+
+    private void setupEditScreenPanel() {
+        jPanel3.setLayout(new GridLayout(6, 2));
+        JTextField oldMovieID = new JTextField();
+        JTextField oldScreen = new JTextField();
+        JTextField newTime = new JTextField();
+        JTextField newSeats = new JTextField();
+        JButton editButton = new JButton("Edit Screen");
+
+        editButton.addActionListener(e -> {
+            List<String> updatedLines = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader("data/showtimes.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(";");
+                    if (parts.length >= 3 && parts[0].equals(oldMovieID.getText()) && parts[1].equals(oldScreen.getText())) {
+                        updatedLines.add(parts[0] + ";" + parts[1] + ";" + newTime.getText() + ";" + newSeats.getText());
+                    } else {
+                        updatedLines.add(line);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/showtimes.txt"))) {
+                for (String updatedLine : updatedLines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+                JOptionPane.showMessageDialog(this, "Screen edited.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        jPanel3.add(new JLabel("Movie ID to Edit:"));
+        jPanel3.add(oldMovieID);
+        jPanel3.add(new JLabel("Screen #:"));
+        jPanel3.add(oldScreen);
+        jPanel3.add(new JLabel("New Time:"));
+        jPanel3.add(newTime);
+        jPanel3.add(new JLabel("New Seats:"));
+        jPanel3.add(newSeats);
+        jPanel3.add(new JLabel());
+        jPanel3.add(editButton);
+    }
+
+    private void setupDeleteScreenPanel() {
+        jPanel4.setLayout(new GridLayout(3, 2));
+        JTextField movieIDField = new JTextField();
+        JTextField screenField = new JTextField();
+        JButton deleteButton = new JButton("Delete Screen");
+    
+        deleteButton.addActionListener(e -> {
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader("data/showtimes.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(";");
+                    if (!(parts[0].equals(movieIDField.getText()) && parts[1].equals(screenField.getText()))) {
+                        lines.add(line);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/showtimes.txt"))) {
+                for (String l : lines) {
+                    writer.write(l);
+                    writer.newLine();
+                }
+                JOptionPane.showMessageDialog(this, "Screen deleted.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    
+        jPanel4.add(new JLabel("Movie ID to Delete:"));
+        jPanel4.add(movieIDField);
+        jPanel4.add(new JLabel("Screen #:"));
+        jPanel4.add(screenField);
+        jPanel4.add(new JLabel());
+        jPanel4.add(deleteButton);
+    }
+    
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

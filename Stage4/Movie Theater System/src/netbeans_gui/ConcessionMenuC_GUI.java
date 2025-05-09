@@ -1,18 +1,27 @@
+package netbeans_gui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import model.Concession;
+import model.Customer;
 
-public class ConcessionMenuCustomer_GUI extends JFrame {
+public class ConcessionMenuC_GUI extends javax.swing.JFrame {
+
     private JComboBox<String> itemDropdown;
     private JSpinner quantitySpinner;
     private JTextArea orderSummary;
     private JLabel totalLabel;
     private Map<String, Integer> cart = new HashMap<>();
+    private Customer currentUser;
 
-    public ConcessionMenuCustomer_GUI() {
+    public ConcessionMenuC_GUI(Customer currentUser) {
+        this.currentUser = currentUser;
         setTitle("Concession Stand - Customer View");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,6 +87,7 @@ public class ConcessionMenuCustomer_GUI extends JFrame {
         cancelButton.addActionListener(e -> resetSelections());
 
         setVisible(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private void loadConcessionItems() {
@@ -91,7 +101,6 @@ public class ConcessionMenuCustomer_GUI extends JFrame {
         String selectedItemName = (String) itemDropdown.getSelectedItem();
         int quantity = (int) quantitySpinner.getValue();
 
-        // Update cart
         cart.put(selectedItemName, cart.getOrDefault(selectedItemName, 0) + quantity);
         updateOrderSummary();
     }
@@ -130,7 +139,26 @@ public class ConcessionMenuCustomer_GUI extends JFrame {
             return;
         }
 
-        JOptionPane.showMessageDialog(this, "Order placed!\n" + orderSummary.getText());
+        String transactionId = "PAY" + System.currentTimeMillis();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/purchases.txt", true))) {
+            for (String itemName : cart.keySet()) {
+                Concession item = findConcessionItem(itemName);
+                int quantity = cart.get(itemName);
+
+                for (int i = 0; i < quantity; i++) {
+                    writer.write(currentUser.getId() + "," + itemName + "," +
+                                 String.format("%.2f", item.getPrice()) + "," + transactionId);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving purchase.");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Order placed!\nTransaction ID: " + transactionId);
         resetSelections();
     }
 
@@ -138,14 +166,5 @@ public class ConcessionMenuCustomer_GUI extends JFrame {
         cart.clear();
         orderSummary.setText("");
         totalLabel.setText("Total: $0.00");
-    }
-
-    public static void main(String[] args) {
-        // Populate concession menu before GUI launch
-        Concession.addItem("popcorn", "Popcorn", 5.00);
-        Concession.addItem("drink", "Drink", 3.00);
-        Concession.addItem("candy", "Candy", 2.50);
-
-        new ConcessionMenuCustomer_GUI();
     }
 }

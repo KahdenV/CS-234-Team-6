@@ -1,2 +1,3 @@
+Tester,staff,staff
 Manager,manager@cinema.com,adminpass
 Clerk,clerk@cinema.com,clerkpass

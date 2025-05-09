@@ -23,12 +23,23 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
+    private javax.swing.JComboBox<String> EditMovieDropdown;
+    private javax.swing.JButton EditLoadButton;
+    private javax.swing.JTextField EditTitleField;
+    private javax.swing.JButton EditSaveButton;
 
+    private javax.swing.JComboBox<String> DeleteMovieDropdown;
+    private javax.swing.JButton DeleteButton;
     /**
      * Creates new form Staff_MovieMenu_GUI
      */
@@ -39,8 +50,12 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         this.movies = MovieIO.loadMovies("data/movies.txt");
         initComponents();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setPreferredSize(null); // Let it grow dynamically
+        contentPanel.setPreferredSize(null);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         loadMovies();
+        initEditPanel();
+        initDeletePanel();
+
     }
     
     private void loadMovies()
@@ -330,17 +345,202 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SUBMITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SUBMITActionPerformed
-        String movieTitle = TitleField.getText();
-        String movieGenres = (String)GenreField1.getSelectedItem() + ", " + (String)GenreField2.getSelectedItem();
-        int movieRuntime = (Integer)RuntimeField.getValue();
-        String movieRating = (String)RatingField.getSelectedItem();
-        String movieReleaseDate = (String)MonthField.getSelectedItem() + "/" + (Integer)DayField.getValue() + "/" + (Integer)YearField.getValue();
-        Movie newMovie = new Movie(movieTitle, movieGenres, movieRuntime, movieRating, movieReleaseDate);
-        newMovie.setMovieID(movies.get(movies.size()-1).getMovieID());
+    private void SUBMITActionPerformed(java.awt.event.ActionEvent evt) {
+        String title = TitleField.getText().trim();
+        String genres = GenreField1.getSelectedItem() + ", " + GenreField2.getSelectedItem();
+        int runtime = (Integer) RuntimeField.getValue();
+        String rating = (String) RatingField.getSelectedItem();
+        String releaseDate = MonthField.getSelectedItem() + "/" + DayField.getValue() + "/" + YearField.getValue();
+    
+        // Ask for price using input dialog (since no PriceField in initComponents)
+        String priceInput = JOptionPane.showInputDialog(this, "Enter movie price:", "Price", JOptionPane.PLAIN_MESSAGE);
+        double price;
+    
+        try {
+            price = Double.parseDouble(priceInput);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid price entered. Please enter a numeric value.");
+            return;
+        }
+    
+        if (title.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a movie title.");
+            return;
+        }
+    
+        // Generate a new unique movie ID
+        int maxID = 0;
+        for (Movie m : movies) {
+            try {
+                int id = Integer.parseInt(m.getMovieID());
+                if (id > maxID) maxID = id;
+            } catch (NumberFormatException ignore) {}
+        }
+        String newID = String.format("%03d", maxID + 1);
+    
+        // Create and add new movie
+        Movie newMovie = new Movie();
+        newMovie.setMovieID(newID);
+        newMovie.setMovieTitleFromFile(title);
+        newMovie.setMovieGenresFromFile(genres);
+        newMovie.setMovieRuntimeFromFile(runtime);
+        newMovie.setMovieRatingFromFile(rating);
+        newMovie.setMovieReleaseDateFromFile(releaseDate);
+        newMovie.setMoviePrice(price);
+    
         movies.add(newMovie);
-        JOptionPane.showMessageDialog(this, "Movie added successfully");
-    }//GEN-LAST:event_SUBMITActionPerformed
+        MovieIO.saveMovies("data/movies.txt", movies);
+        loadMovies(); // refresh movie list
+    
+        JOptionPane.showMessageDialog(this, "Movie added successfully!");
+    }
+    
+    private void initEditPanel() {
+        jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
+
+        EditMovieDropdown = new JComboBox<>();
+        EditMovieDropdown.setPreferredSize(new Dimension(300, 25));
+        EditMovieDropdown.setMaximumSize(new Dimension(300, 25));
+
+        for (Movie m : movies) {
+            EditMovieDropdown.addItem(m.getMovieID() + " - " + m.getMovieTitle());
+        }
+
+        EditLoadButton = new JButton("Load Movie");
+
+        EditTitleField = new JTextField();
+        EditTitleField.setMaximumSize(new Dimension(300, 25));
+
+        GenreField1 = new JComboBox<>(getGenres());
+        GenreField2 = new JComboBox<>(getGenres());
+        GenreField1.setMaximumSize(new Dimension(200, 25));
+        GenreField2.setMaximumSize(new Dimension(200, 25));
+
+        RuntimeField = new JSpinner(new SpinnerNumberModel(90, 1, 500, 1));
+        RuntimeField.setMaximumSize(new Dimension(100, 25));
+
+        RatingField = new JComboBox<>(new String[]{"G", "PG", "PG-13", "R"});
+        RatingField.setMaximumSize(new Dimension(100, 25));
+
+        DayField = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
+        DayField.setMaximumSize(new Dimension(60, 25));
+
+        MonthField = new JComboBox<>(new String[]{
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        });
+        MonthField.setMaximumSize(new Dimension(100, 25));
+
+        YearField = new JSpinner(new SpinnerNumberModel(2024, 1900, 2100, 1));
+        YearField.setMaximumSize(new Dimension(80, 25));
+
+        JSpinner PriceField = new JSpinner(new SpinnerNumberModel(5.00, 0.00, 50.00, 0.01));
+        PriceField.setMaximumSize(new Dimension(100, 25));
+
+        EditSaveButton = new JButton("Save Changes");
+
+        // Load selected movie
+        EditLoadButton.addActionListener(e -> {
+            int index = EditMovieDropdown.getSelectedIndex();
+            if (index >= 0) {
+                Movie m = movies.get(index);
+                EditTitleField.setText(m.getMovieTitle());
+                RuntimeField.setValue(m.getMovieRuntime());
+                RatingField.setSelectedItem(m.getMovieRating());
+                PriceField.setValue(m.getMoviePrice());
+
+                // Set genres
+                String[] genres = m.getMovieGenres().split(", ");
+                if (genres.length >= 1) GenreField1.setSelectedItem(genres[0]);
+                if (genres.length >= 2) GenreField2.setSelectedItem(genres[1]);
+
+                // Set release date
+                String[] dateParts = m.getMovieReleaseDate().split("/");
+                if (dateParts.length == 3) {
+                    MonthField.setSelectedIndex(Integer.parseInt(dateParts[0]) - 1);
+                    DayField.setValue(Integer.parseInt(dateParts[1]));
+                    YearField.setValue(Integer.parseInt(dateParts[2]));
+                }
+            }
+        });
+
+        // Save updates
+        EditSaveButton.addActionListener(e -> {
+            int index = EditMovieDropdown.getSelectedIndex();
+            if (index >= 0) {
+                Movie m = movies.get(index);
+                m.setMovieTitleFromFile(EditTitleField.getText().trim());
+                m.setMovieGenresFromFile(GenreField1.getSelectedItem() + ", " + GenreField2.getSelectedItem());
+                m.setMovieRuntimeFromFile((Integer) RuntimeField.getValue());
+                m.setMovieRatingFromFile((String) RatingField.getSelectedItem());
+                m.setMoviePrice((Double) PriceField.getValue());
+                m.setMovieReleaseDateFromFile((MonthField.getSelectedIndex() + 1) + "/" +
+                                            DayField.getValue() + "/" +
+                                            YearField.getValue());
+                MovieIO.saveMovies("data/movies.txt", movies);
+                loadMovies();
+                JOptionPane.showMessageDialog(this, "Movie updated successfully.");
+            }
+        });
+
+        jPanel1.add(Box.createVerticalStrut(10));
+        jPanel1.add(EditMovieDropdown);
+        jPanel1.add(EditLoadButton);
+        jPanel1.add(new JLabel("Title")); jPanel1.add(EditTitleField);
+        jPanel1.add(new JLabel("Genres")); jPanel1.add(GenreField1); jPanel1.add(GenreField2);
+        jPanel1.add(new JLabel("Runtime")); jPanel1.add(RuntimeField);
+        jPanel1.add(new JLabel("Rating")); jPanel1.add(RatingField);
+        jPanel1.add(new JLabel("Release Date")); jPanel1.add(MonthField); jPanel1.add(DayField); jPanel1.add(YearField);
+        jPanel1.add(new JLabel("Price")); jPanel1.add(PriceField);
+        jPanel1.add(Box.createVerticalStrut(10));
+        jPanel1.add(EditSaveButton);
+    }
+
+    private String[] getGenres() {
+        return new String[] {
+            "Action", "Adventure", "Animated", "Comedy", "Crime", "Documentary", "Drama",
+            "Family", "Fantasy", "Historical", "Horror", "Musical", "Mystery", "Political",
+            "Romance", "Sci-Fi", "Superhero", "Sports", "Thriller", "War", "Western"
+        };
+    }
+    
+    
+    private void initDeletePanel() {
+        jPanel2.setLayout(new BoxLayout(jPanel2, BoxLayout.Y_AXIS));
+        DeleteMovieDropdown = new javax.swing.JComboBox<>();
+        for (Movie m : movies) {
+            DeleteMovieDropdown.addItem(m.getMovieID() + " - " + m.getMovieTitle());
+        }
+    
+        DeleteButton = new javax.swing.JButton("Delete Movie");
+    
+        DeleteButton.addActionListener(e -> {
+            int index = DeleteMovieDropdown.getSelectedIndex();
+            if (index >= 0) {
+                int confirm = JOptionPane.showConfirmDialog(this, "Are you sure?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    movies.remove(index);
+                    MovieIO.saveMovies("data/movies.txt", movies);
+                    loadMovies();
+                    JOptionPane.showMessageDialog(this, "Movie deleted.");
+                    // Refresh dropdowns
+                    EditMovieDropdown.removeAllItems();
+                    DeleteMovieDropdown.removeAllItems();
+                    for (Movie m : movies) {
+                        EditMovieDropdown.addItem(m.getMovieID() + " - " + m.getMovieTitle());
+                        DeleteMovieDropdown.addItem(m.getMovieID() + " - " + m.getMovieTitle());
+                    }
+                }
+            }
+        });
+    
+        DeleteMovieDropdown.setMaximumSize(new Dimension(300, 30));
+        DeleteMovieDropdown.setPreferredSize(new Dimension(300, 30));
+        jPanel2.add(Box.createRigidArea(new Dimension(0, 20)));
+        jPanel2.add(DeleteMovieDropdown);
+        jPanel2.add(DeleteButton);
+    }
+    
 
     private void GenreField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenreField1ActionPerformed
         // TODO add your handling code here:
@@ -357,41 +557,6 @@ public class Staff_MovieMenu_GUI extends javax.swing.JFrame {
     private void AllMovies_ScrollFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AllMovies_ScrollFocusGained
 
     }//GEN-LAST:event_AllMovies_ScrollFocusGained
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Staff_MovieMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Staff_MovieMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Staff_MovieMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Staff_MovieMenu_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Staff_MovieMenu_GUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddMovie_Panel;

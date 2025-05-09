@@ -3,8 +3,5 @@ C001,Alice,alice@example.com,password123
 C002,Bob,bob@example.com,pass456
 C003,Kahden,kahden@example.com,pass123
 C004,Steve,steve@example.com,steve456
-C005,John,john@example.com,pass123
 C006,Kyle,Kyle@example.com,Kyle579
-
 C007,Lazo McCarroll,lazomccarroll@protonmail.com,lazo123
-
