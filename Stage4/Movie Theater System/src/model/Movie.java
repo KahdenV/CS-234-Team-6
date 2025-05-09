@@ -47,10 +47,12 @@ public class Movie {
      * @param genres  The genres of the movie.
      * @param runtime The duration in minutes.
      */
-    public Movie(String title, String genres, int runtime) {
+    public Movie(String title, String genres, int runtime, String rating, String releaseDate) {
         this.movieTitle = title;
         this.movieGenres = genres;
         this.movieRuntime = runtime;
+        this.movieRating = rating;
+        this.movieReleaseDate = releaseDate;
     }
 
 
@@ -125,7 +127,7 @@ public class Movie {
     }
 
     /**
-     * Prompts the user to input the runtime of the movie.
+     * Prompts the user to input the run time of the movie.
      */
     public void setMovieGenres() {
         String[] genreSelection = {"Action", "Adventure", "Animated", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Historical", "Horror", "Musical", "Mystery", "Political", "Romance", "Sci-Fi", "Sports", "Thriller", "War", "Western"};
