@@ -7,5 +7,7 @@ Completed:
 	All Of Purchase Ticket GUI and Code
 	All Of Purchase History GUI and Code
 	All Of The Integrated Local Saved Data Into Customer Side of Program
+	Helped Create and Implement All Files on Staff side of program
+	Helped Fix Concession Staff and Customer Files
 	Created README.txt
 	Created UserGuide.txt

@@ -16,7 +16,7 @@ public class ConcessionMenuS_GUI extends javax.swing.JFrame {
     public ConcessionMenuS_GUI() {
         setTitle("Concession Stand");
         setSize(660, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLayout(null);
 
         // Title Label
