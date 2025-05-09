@@ -9,6 +9,6 @@ public class Main {
         //IOTester.testMovieIO();
 
         // To launch the app normally, use:
-        new NewJFrame().setVisible(true);
+        new LoginWindow_GUI().setVisible(true);
     }
 }
