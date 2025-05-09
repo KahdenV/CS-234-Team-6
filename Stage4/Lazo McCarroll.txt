@@ -1,0 +1,7 @@
+Lazo McCarroll
+
+Completed:
+	
+	All of StaffMenu
+	All of Staff_MovieMenu_GUI
+	Debugged LoginWindow_GUI
