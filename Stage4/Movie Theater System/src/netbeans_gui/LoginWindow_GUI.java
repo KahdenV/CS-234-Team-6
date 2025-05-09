@@ -144,8 +144,10 @@ public class LoginWindow_GUI extends javax.swing.JFrame {
                     new CustomerMenu_GUI(customer).setVisible(true);
             });
             } else if (person instanceof Staff) {
-                // TODO: Open staff GUI here
-                JOptionPane.showMessageDialog(this, "Logged in as staff. (Add staff GUI here)");
+                Staff staff = (Staff) person;
+                java.awt.EventQueue.invokeLater(() -> {
+                    new StaffMenu_GUI(staff).setVisible(true);
+                }
             }
             
         } else {
