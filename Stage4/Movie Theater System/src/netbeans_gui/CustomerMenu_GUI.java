@@ -147,7 +147,7 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
   
    private void Concession_ButtonActionPerformed(java.awt.event.ActionEvent evt) 
    {
-       
+        new ConcessionMenuC(currentUser).setVisible(true);
    }
     
     private void loadMovies() {
