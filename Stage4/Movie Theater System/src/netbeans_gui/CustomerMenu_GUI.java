@@ -72,7 +72,6 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         Concession_Button.addActionListener(this::Concession_ButtonActionPerformed);
         getContentPane().add(Concession_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 290, 60));
 
-
         scrollPane.setMinimumSize(new java.awt.Dimension(400, 360));
 
         contentPanel.setPreferredSize(new java.awt.Dimension(400, 360));
@@ -120,10 +119,6 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Concession_ButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        new ConcessionMenuC_GUI(currentUser).setVisible(true); // Opens the Concession GUI
-    }
-
     private void Logout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_buttonActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Confirm Logout", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
@@ -150,6 +145,11 @@ public class CustomerMenu_GUI extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_Purchases_ButtonActionPerformed
   
+   private void Concession_ButtonActionPerformed(java.awt.event.ActionEvent evt) 
+   {
+       
+   }
+    
     private void loadMovies() {
         contentPanel.removeAll();
         List<Movie> movies = MovieIO.loadMovies("data/movies.txt");
